@@ -1,5 +1,6 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
+
   modules: [
     '@nuxt/ui-pro',
     '@nuxt/content',
@@ -8,17 +9,20 @@ export default defineNuxtConfig({
     '@vueuse/nuxt',
     'nuxt-og-image'
   ],
-
   devtools: {
     enabled: true
   },
-
+  app: {
+  },
   css: ['~/assets/css/main.css'],
 
   content: {
     preview: {
       api: 'https://api.nuxt.studio'
     }
+  },
+  ui: {
+    fonts: false
   },
 
   routeRules: {
@@ -52,5 +56,12 @@ export default defineNuxtConfig({
         braceStyle: '1tbs'
       }
     }
+  },
+
+  icon: {
+    customCollections: [{
+      prefix: 'custom',
+      dir: './assets/icons'
+    }]
   }
 })
