@@ -3,7 +3,7 @@ name: Deploy Nuxt.js to Server
 on:
   push:
     branches:
-      - main  # 触发部署的分支
+      - v3  # 触发部署的分支
 
 jobs:
   deploy:
