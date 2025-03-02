@@ -3,7 +3,7 @@ name: Deploy HTML project to Baota Panel
 on:
   push:
     branches:
-      - main  # 或者你使用的是 master 分支
+      - v3  # 或者你使用的是 master 分支
 
 jobs:
   deploy:
