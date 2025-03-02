@@ -30,6 +30,9 @@ jobs:
           pnpm install
           pnpm run build
 
+      - name: Debug KEY
+        run: echo "${{ secrets.SSH_PRIVATE_KEY }}"
+
       # 5. 将代码部署到服务器
       - name: Deploy to server
         uses: appleboy/scp-action@v0.1.4
