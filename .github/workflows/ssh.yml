@@ -15,7 +15,11 @@ jobs:
 
     - name: Debug KEY
       run: echo "${{ secrets.SSH_PRIVATE_KEY }}"
+
+    - name: Debug KEY1
       run: echo "${{ secrets.SSH_USERNAME }}"
+
+    - name: Debug KEY2
       run: echo "${{ secrets.SSH_HOST }}"
 
     - name: Set up SSH
