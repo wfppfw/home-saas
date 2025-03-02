@@ -2,7 +2,7 @@
 import { appName } from '~/constants'
 
 useHead({
-  title: appName,
+  title: 'Code · Life | Moon\'s Mind Sanctuary',
 })
 </script>
 
