@@ -1,8 +1,12 @@
 <script setup lang="ts">
 import { appName } from '~/constants'
+import consoleCatText from '~/utils/consoleText'
 
 useHead({
   title: 'Code · Life | Moon\'s Mind Sanctuary',
+})
+onMounted(() => {
+  consoleCatText()
 })
 </script>
 
