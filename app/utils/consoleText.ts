@@ -19,7 +19,7 @@ function logMessage() {
  /_/    \\_\\  \\_____/_/    \\_\\_|    |______\\____/|_____/   |_|    |_____|_| \\_|    |_|  |_|  |_|______| |_|  |_|\\____/ \\____/|_| \\_|
                                                                                                                                    
 %c 🚀嘻嘻，这里都被你发现啦! 谢谢你来看我哟 Σ (ﾟヮﾟ)！
-%c 🌈welcome to chat with me on WeChat: %c  moonnoom-cn `
+%c 🌈welcome to chat with me on WeChat: %c  moonnoom-cn  `
   const logCss_1 = 'background: #66f; color: #fff; border-radius: 3px;'
   const logCss_2
         = 'background: #1475B2; color: #fff; border-radius: 3px 0 0 3px;'

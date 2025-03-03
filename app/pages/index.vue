@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import AppHeader from '../components/Header.vue'
+
 definePageMeta({
   layout: 'home',
 })
