@@ -6,9 +6,9 @@ const props = defineProps({
   navigation: {
     type: Array,
     default: () => [
-      { name: 'Doc' },
-      { name: 'Tool' },
-      { name: 'Toy' },
+      { name: 'Doc', router: '/doc' },
+      { name: 'Tool', router: '/tool' },
+      { name: 'Toy', router: '/toy' },
     ],
   },
 })
@@ -94,7 +94,7 @@ onBeforeUnmount(() => {
             <NuxtLink
               v-for="nav in navigation"
               :key="nav.name"
-              to="/"
+              :to="nav.router"
               class="rounded-md px-3 py-2 text-sm text-gray-700 font-medium transition-colors hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-800"
             >
               {{ nav.name }}
@@ -147,7 +147,7 @@ onBeforeUnmount(() => {
           <NuxtLink
             v-for="nav in navigation"
             :key="nav.name"
-            to="/"
+            :to="nav.router"
             class="text-nav-color block rounded-md px-3 py-2 transition-colors hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-700"
           >
             {{ nav.name }}

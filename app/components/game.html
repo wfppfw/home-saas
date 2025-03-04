@@ -1,0 +1,165 @@
+<!doctype html>
+<html>
+  <head>
+    <style>
+      body {
+        margin: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+        background: #fff;
+      }
+
+      #gameContainer {
+        display: none;
+        text-align: center;
+      }
+
+      #gameCanvas {
+        border: 2px solid #333;
+        background: #f0f0f0;
+      }
+
+      .offline-message {
+        font-family: Arial;
+        color: #666;
+        margin-top: 20px;
+      }
+
+      #restartBtn {
+        padding: 8px 20px;
+        margin-top: 10px;
+        cursor: pointer;
+        background: #4caf50;
+        color: white;
+        border: none;
+        border-radius: 4px;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="status">在线状态</div>
+    <div id="gameContainer">
+      <canvas id="gameCanvas" width="400" height="200"></canvas>
+      <div class="offline-message">网络连接已断开</div>
+      <button id="restartBtn">重新开始</button>
+    </div>
+
+    <script>
+      // 检测网络状态
+      window.addEventListener('load', () => {
+        const updateOnlineStatus = () => {
+          if (!navigator.onLine) {
+            document.getElementById('status').style.display = 'none'
+            document.getElementById('gameContainer').style.display = 'block'
+            startGame()
+          }
+        }
+
+        window.addEventListener('online', () => {
+          document.getElementById('status').style.display = 'block'
+          document.getElementById('gameContainer').style.display = 'none'
+        })
+
+        window.addEventListener('offline', updateOnlineStatus)
+        updateOnlineStatus()
+      })
+
+      // 游戏逻辑
+      function startGame() {
+        const canvas = document.getElementById('gameCanvas')
+        const ctx = canvas.getContext('2d')
+        const restartBtn = document.getElementById('restartBtn')
+
+        let dino = {
+          x: 50,
+          y: 150,
+          width: 30,
+          height: 50,
+          jumping: false,
+          velocity: 0,
+        }
+
+        let obstacle = {
+          x: 400,
+          y: 160,
+          width: 20,
+          height: 30,
+          speed: 5,
+        }
+
+        let score = 0
+        let gameOver = false
+
+        // 游戏循环
+        function gameLoop() {
+          if (gameOver) return
+
+          ctx.clearRect(0, 0, canvas.width, canvas.height)
+
+          // 绘制恐龙
+          ctx.fillStyle = '#666'
+          ctx.fillRect(dino.x, dino.y, dino.width, dino.height)
+
+          // 绘制障碍物
+          ctx.fillStyle = '#ff4444'
+          ctx.fillRect(obstacle.x, obstacle.y, obstacle.width, obstacle.height)
+
+          // 移动障碍物
+          obstacle.x -= obstacle.speed
+          if (obstacle.x < -obstacle.width) {
+            obstacle.x = 400
+            score += 10
+          }
+
+          // 跳跃逻辑
+          if (dino.jumping) {
+            dino.y += dino.velocity
+            dino.velocity += 1
+            if (dino.y > 150) {
+              dino.y = 150
+              dino.jumping = false
+              dino.velocity = 0
+            }
+          }
+
+          // 碰撞检测
+          if (
+            obstacle.x < dino.x + dino.width &&
+            obstacle.x + obstacle.width > dino.x &&
+            obstacle.y < dino.y + dino.height &&
+            obstacle.y + obstacle.height > dino.y
+          ) {
+            gameOver = true
+            ctx.fillStyle = 'black'
+            ctx.font = '24px Arial'
+            ctx.fillText('游戏结束！得分: ' + score, 100, 100)
+            restartBtn.style.display = 'block'
+          }
+
+          requestAnimationFrame(gameLoop)
+        }
+
+        // 事件监听
+        document.addEventListener('keydown', (e) => {
+          if (e.code === 'Space' && !dino.jumping && !gameOver) {
+            dino.jumping = true
+            dino.velocity = -15
+          }
+        })
+
+        restartBtn.addEventListener('click', () => {
+          obstacle.x = 400
+          dino.y = 150
+          gameOver = false
+          score = 0
+          restartBtn.style.display = 'none'
+          gameLoop()
+        })
+
+        gameLoop()
+      }
+    </script>
+  </body>
+</html>
