@@ -1,5 +1,8 @@
 <script setup lang="ts">
 const router = useRouter()
+
+// 设置正确的 HTTP 状态码（SEO关键）
+setResponseStatus(404)
 </script>
 
 <template>
@@ -7,7 +10,7 @@ const router = useRouter()
     <div text-4xl>
       <div i-carbon-warning inline-block />
     </div>
-    <div>Not found</div>
+    <div>Not found 404</div>
     <div>
       <button text-sm btn m="3 t8" @click="router.back()">
         Back

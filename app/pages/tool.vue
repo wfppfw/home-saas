@@ -5,8 +5,8 @@ definePageMeta({
   layout: 'home',
 })
 
-const { data } = await useFetch('/api/hello')
-console.error(data)
+// const { data } = await useFetch('/api/hello')
+// console.error(data)
 
 // 工具数据
 const tools = ref([

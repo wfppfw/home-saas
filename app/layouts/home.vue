@@ -3,8 +3,5 @@
     <Header />
     <slot />
     <Footer />
-    <div class="mx-auto mt-5 text-center text-sm opacity-25">
-      [Home Layout1234]
-    </div>
   </main>
 </template>

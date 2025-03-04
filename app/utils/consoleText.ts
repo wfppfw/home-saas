@@ -1,4 +1,4 @@
-function logMessage() {
+export default function () {
   const logText = `
            ____
          ／＞   フ
@@ -28,5 +28,3 @@ function logMessage() {
   // eslint-disable-next-line no-console
   console.log(logText, logCss_1, logCss_2, logCss_3)
 }
-
-export default logMessage
