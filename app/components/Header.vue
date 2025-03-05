@@ -111,10 +111,14 @@ onBeforeUnmount(() => {
             <svg class="h-5 w-5 text-gray-700 dark:text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707" />
             </svg>
+
+            <!-- <Icon name="ix:bulb shrink-0 size-5 h-5 w-5 text-gray-700 dark:text-gray-300" color="currentColor" /> -->
           </button>
 
           <button class="hidden items-center border border-transparent rounded-md from-blue-500 to-purple-500 bg-gradient-to-r px-4 py-2 text-sm text-white font-medium transition-all md:inline-flex hover:from-blue-600 hover:to-purple-600">
-            Get Started
+            <NuxtLink to="/login">
+              Get Started
+            </NuxtLink>
           </button>
 
           <!-- 移动端菜单按钮 -->
