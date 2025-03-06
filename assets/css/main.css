@@ -1,0 +1,24 @@
+/* 全局默认光标 */
+body {
+  cursor: url('/arrow.svg'), auto;
+}
+
+/* 链接悬停手形光标 */
+a,
+a:link,
+a:visited,
+a:hover,
+a:active,
+a:focus {
+  cursor: url('/pointer.svg'), pointer !important;
+}
+
+a, button, .clickable {
+  &, &:link, &:visited, &:hover, &:active, &:focus {
+    cursor: url('/pointer.svg') pointer !important;
+  }
+}
+
+.cursor-pointer {
+  cursor: url('/pointer.svg') pointer !important;
+}

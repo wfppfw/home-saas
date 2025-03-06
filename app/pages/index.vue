@@ -296,7 +296,7 @@ onBeforeUnmount(() => {
 <style scoped>
 /* 新增点击反馈效果 */
 .background-canvas {
-  cursor: pointer;
+  cursor: url('/pointer.svg'), pointer !important;
   transition: transform 0.3s ease;
 }
 

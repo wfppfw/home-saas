@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import '../assets/css/main.css'
+
 useHead({
   title: 'Code · Life | Moon\'s Mind Sanctuary',
 })
