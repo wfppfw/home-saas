@@ -80,11 +80,32 @@ onBeforeUnmount(() => {
         <!-- 左侧 Logo 和导航 -->
         <div class="flex items-center">
           <NuxtLink to="/" class="flex items-center space-x-2">
-            <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" t="1740727177932" class="mb-1" viewBox="0 0 1024 1024" version="1.1" p-id="13075" width="25" height="25">
-              <path d="M859.831052 656.36486c-213.616449 0-386.78729-173.170841-386.787289-386.78729a385.435514 385.435514 0 0 1 36.282617-163.88785c-228.366355 27.334579-405.53271 221.71514-405.532711 457.498317 0 254.49271 206.367103 460.811963 460.871776 460.811963 234.981682 0 428.883738-175.850467 457.23514-403.211963a385.196262 385.196262 0 0 1-162.069533 35.576823z" fill="#6F6CFF" p-id="13076" />
-              <path d="M486.83666 971.113271A484.354393 484.354393 0 0 1 2.111426 486.376075c0-245.233645 183.410841-452.186916 426.610841-481.244112l42.766356-5.131963-18.278879 39.034019a363.591776 363.591776 0 0 0-34.105421 153.707663c0 200.098692 162.775327 362.862056 362.862057 362.862056h0.418691a364.058318 364.058318 0 0 0 151.614206-33.339813l39.105794-18.075514-5.323364 42.754393a484.797009 484.797009 0 0 1-480.945047 424.170467z m-93.404112-911.551402C194.936847 102.603364 49.961894 279.31514 49.961894 486.376075c0 240.951028 195.971589 436.886729 436.874766 436.886729 205.960374 0 382.456822-144.08972 426.407477-341.329346a412.195888 412.195888 0 0 1-130.859066 21.53271h-0.442617a409.540187 409.540187 0 0 1-290.392523-120.296075 410.856075 410.856075 0 0 1-98.093458-423.644112z" fill="#333333" p-id="13077" class="default_pointer_cs" />
+            <svg viewBox="0 0 120 120" class="logo-svg mt-5" width="20" height="20">
+              <path
+                d="M50 10 L90 50 L50 90 L10 50 Z"
+                class="hexagon"
+                fill="none"
+                stroke="#4F46E5"
+                stroke-width="2"
+              />
+              <path
+                d="M50 30 L70 50 L50 70 L30 50 Z"
+                class="inner-hex"
+                fill="none"
+                stroke="#4F46E5"
+                stroke-width="1"
+              />
             </svg>
-            <span class="text-xl text-gray-900 font-bold dark:text-white">Moon</span>
+            <span class="text-xl text-gray-900 font-bold dark:text-white">Code</span>
+            <!-- <SimpleBottonSelect
+              v-model="selectedValue"
+              :options="[
+                { label: '选项1', value: 1 },
+                { label: '选项2', value: 2 },
+                { label: '选项3', value: 3 },
+              ]"
+              placeholder="请选择"
+            /> -->
           </NuxtLink>
         </div>
 
@@ -152,7 +173,7 @@ onBeforeUnmount(() => {
             v-for="nav in navigation"
             :key="nav.name"
             :to="nav.router"
-            class="text-nav-color block rounded-md px-3 py-2 transition-colors hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-700"
+            class="block rounded-md px-3 py-2 transition-colors text-nav-color hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-700"
           >
             {{ nav.name }}
           </NuxtLink>
@@ -179,5 +200,10 @@ onBeforeUnmount(() => {
   .transition-all {
     -webkit-tap-highlight-color: transparent;
   }
+}
+
+.logo-svg {
+  @apply w-24 h-24 mx-auto mb-6;
+  filter: drop-shadow(0 0 8px rgba(79, 70, 229, 0.3));
 }
 </style>
