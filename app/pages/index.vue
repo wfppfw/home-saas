@@ -233,64 +233,68 @@ onBeforeUnmount(() => {
 </script>
 
 <template>
-  <section class="hero-section">
-    <!-- 动态背景容器 -->
-    <div ref="canvasContainer" class="background-canvas" />
+  <div>
+    <section class="hero-section">
+      <!-- 动态背景容器 -->
+      <div ref="canvasContainer" class="background-canvas" />
 
-    <!-- 内容层 -->
-    <div class="content-layer">
-      <!-- 个人品牌区 -->
-      <div class="branding">
-        <div class="animated-logo">
-          <!-- 使用 SVG 制作科技感 logo -->
-          <svg viewBox="0 0 100 100" class="logo-svg">
-            <path
-              d="M50 10 L90 50 L50 90 L10 50 Z"
-              class="hexagon"
-              fill="none"
-              stroke="#4F46E5"
-              stroke-width="2"
-            />
-            <path
-              d="M50 30 L70 50 L50 70 L30 50 Z"
-              class="inner-hex"
-              fill="none"
-              stroke="#4F46E5"
-              stroke-width="1"
-            />
-          </svg>
+      <!-- 内容层 -->
+      <div class="content-layer">
+        <!-- 个人品牌区 -->
+        <div class="branding">
+          <div class="animated-logo">
+            <!-- 使用 SVG 制作科技感 logo -->
+            <svg viewBox="0 0 120 120" class="logo-svg">
+              <path
+                d="M50 10 L90 50 L50 90 L10 50 Z"
+                class="hexagon"
+                fill="none"
+                stroke="#4F46E5"
+                stroke-width="2"
+              />
+              <path
+                d="M50 30 L70 50 L50 70 L30 50 Z"
+                class="inner-hex"
+                fill="none"
+                stroke="#4F46E5"
+                stroke-width="1"
+              />
+            </svg>
+          </div>
+          <h1 class="title">
+            <span class="gradient-text select-none">Alex Wang</span>
+            <span class="subtitle select-none">Full Stack Developer (〃▽〃)</span>
+          </h1>
         </div>
-        <h1 class="title">
-          <span class="gradient-text select-none">Alex Wang</span>
-          <span class="subtitle select-none">Full Stack Developer (〃▽〃)</span>
-        </h1>
-      </div>
 
-      <!-- 动态技能标签云 -->
-      <div class="skill-cloud">
-        <div
-          v-for="(skill, index) in skills"
-          :key="index"
-          class="skill-tag select-none"
-          :style="getTagStyle(index)"
-        >
-          {{ skill }}
+        <!-- 动态技能标签云 -->
+        <div class="skill-cloud">
+          <div
+            v-for="(skill, index) in skills"
+            :key="index"
+            class="skill-tag select-none"
+            :style="getTagStyle(index)"
+          >
+            {{ skill }}
+          </div>
+        </div>
+
+        <!-- CTA 按钮组 -->
+        <div class="cta-group">
+          <NuxtLink to="/projects" class="cta-button glow-effect">
+            <Icon name="ph:rocket-launch" class="icon" />
+            View some project
+          </NuxtLink>
+          <NuxtLink to="/chat" class="cta-button secondary">
+            <Icon name="ph:chat-circle-dots" class="icon" />
+            Chat with my kitty
+          </NuxtLink>
         </div>
       </div>
+    </section>
 
-      <!-- CTA 按钮组 -->
-      <div class="cta-group">
-        <NuxtLink to="/projects" class="cta-button glow-effect">
-          <Icon name="ph:rocket-launch" class="icon" />
-          View some project
-        </NuxtLink>
-        <NuxtLink to="/chat" class="cta-button secondary">
-          <Icon name="ph:chat-circle-dots" class="icon" />
-          Chat with my kitty
-        </NuxtLink>
-      </div>
-    </div>
-  </section>
+    <SimpleFourCard />
+  </div>
 </template>
 
 <style scoped>

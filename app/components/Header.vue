@@ -80,32 +80,8 @@ onBeforeUnmount(() => {
         <!-- 左侧 Logo 和导航 -->
         <div class="flex items-center">
           <NuxtLink to="/" class="flex items-center space-x-2">
-            <svg viewBox="0 0 120 120" class="logo-svg mt-5" width="20" height="20">
-              <path
-                d="M50 10 L90 50 L50 90 L10 50 Z"
-                class="hexagon"
-                fill="none"
-                stroke="#4F46E5"
-                stroke-width="2"
-              />
-              <path
-                d="M50 30 L70 50 L50 70 L30 50 Z"
-                class="inner-hex"
-                fill="none"
-                stroke="#4F46E5"
-                stroke-width="1"
-              />
-            </svg>
-            <span class="text-xl text-gray-900 font-bold dark:text-white">Code</span>
-            <!-- <SimpleBottonSelect
-              v-model="selectedValue"
-              :options="[
-                { label: '选项1', value: 1 },
-                { label: '选项2', value: 2 },
-                { label: '选项3', value: 3 },
-              ]"
-              placeholder="请选择"
-            /> -->
+            <img src="/head-moon.svg">
+            <span class="text-xl text-gray-900 font-bold dark:text-white" />
           </NuxtLink>
         </div>
 
@@ -138,7 +114,7 @@ onBeforeUnmount(() => {
 
           <button class="hidden items-center border border-transparent rounded-md from-blue-500 to-purple-500 bg-gradient-to-r px-4 py-2 text-sm text-white font-medium transition-all md:inline-flex hover:from-blue-600 hover:to-purple-600">
             <NuxtLink to="/login">
-              Get Started
+              Sigin Up
             </NuxtLink>
           </button>
 

@@ -8,6 +8,14 @@ const FormField = defineProps({
   required: Boolean,
   modelValue: String,
 })
+
+definePageMeta({
+  layout: 'clean',
+})
+
+const { data: users, refresh } = useFetch('/api/users')
+
+console.warn(users, refresh)
 const { $message } = useNuxtApp()
 onMounted(() => {
   $message.success('测试消息')
