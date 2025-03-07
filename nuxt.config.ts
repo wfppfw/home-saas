@@ -128,4 +128,13 @@ export default defineNuxtConfig({
   },
 
   pwa,
+
+  unocss: {
+    safelist: [
+      // 添加可能使用的宽度值
+      'max-w-[500px]',
+      'max-w-[600px]',
+      'max-w-[700px]',
+    ],
+  },
 })

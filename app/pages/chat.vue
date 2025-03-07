@@ -39,7 +39,7 @@ const messages = ref<Array<{
 const isLoading = ref(false)
 const inputMessage = ref('')
 const messagesContainer = ref<HTMLElement | null>(null)
-// const sidebarOpen = ref(true)
+const sidebarOpen = ref(true)
 // 消息处理逻辑
 async function handleSend() {
   if (!inputMessage.value.trim() || isLoading.value)
@@ -96,7 +96,29 @@ watch([messages, isLoading], () => {
 <template>
   <div class="h-screen flex">
     <!-- 侧边栏保持原有实现 -->
-
+    <div
+      class="w-64 border-r bg-white transition-all duration-300"
+      :class="{ '-ml-64': !sidebarOpen }"
+    >
+      <div class="p-4">
+        <h2 class="mb-4 text-lg font-bold">
+          历史记录
+        </h2>
+        <div
+          v-for="(item, index) in history"
+          :key="index"
+          class="mb-2 cursor-pointer rd p-2 hover:bg-gray-100"
+          @click="scrollToMessage(index)"
+        >
+          <div class="truncate text-sm">
+            {{ item.content }}
+          </div>
+          <div class="mt-1 text-xs text-gray-400">
+            {{ formatTime(item.time) }}
+          </div>
+        </div>
+      </div>
+    </div>
     <!-- 主内容区 -->
     <div class="relative flex flex-1 flex-col">
       <!-- 消息区域 -->
