@@ -20,6 +20,7 @@
     "better-sqlite3": "^11.8.1",
     "nuxt-icon": "1.0.0-beta.7",
     "nuxt-icons": "^3.2.1",
+    "openai": "^4.86.2",
     "three": "^0.174.0"
   },
   "devDependencies": {

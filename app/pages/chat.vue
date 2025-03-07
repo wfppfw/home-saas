@@ -3,6 +3,32 @@ definePageMeta({
   layout: 'clean',
 })
 
+// 客户端发送 POST 请求示例
+const { data, error } = await useFetch('/api/chat', {
+  method: 'POST',
+  body: {
+    name: 'John',
+    age: 30,
+    model: 'deepseek-reasoner', // deepseek-reasoner deepseek-chat
+    message: [{ role: 'user', content: 'What\'s the highest mountain in the world?' }],
+  },
+  // 可选配置
+  headers: {
+    'Content-Type': 'application/json',
+  },
+  params: {
+    debug: true, // 附加查询参数
+  },
+})
+
+// 处理响应
+if (error.value) {
+  console.error('请求失败:', error.value)
+}
+else {
+  console.warn('响应数据:', data.value)
+}
+
 // 正确定义响应式变量
 const messages = ref<Array<{
   role: 'user' | 'assistant'
