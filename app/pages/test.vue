@@ -1,4 +1,18 @@
 <script setup>
+definePageMeta({
+  layout: 'clean',
+})
+
+function handleCat() {
+  useLive2d(
+    () => {
+      live2d.isShow = !live2d.isShow
+    },
+    'tororo',
+    'live2d',
+  )
+}
+
 const showModal = ref(false)
 
 function handleConfirm() {
@@ -9,9 +23,12 @@ function handleConfirm() {
 
 <template>
   <div>
+    <Live2d />
+
+    <Index3d />
     <button
       class="rounded bg-blue-500 px-4 py-2 text-white hover:bg-blue-600"
-      @click="showModal = true"
+      @click="handleCat"
     >
       打开弹窗
     </button>
