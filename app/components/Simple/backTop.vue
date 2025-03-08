@@ -34,24 +34,27 @@ onBeforeUnmount(() => {
 <template>
   <div
     v-show="visible"
-    class="back-top fixed bottom-8 right-8 cursor-pointer"
+    class="back-top fixed bottom-14 right-6 hidden cursor-pointer md:block"
     @click="scrollToTop"
   >
-    <div class="bg-primary-500/80 hover:bg-primary-600/90 rounded-full p-3 shadow-lg transition-all">
-      <div class="i-ph-arrow-up-bold text-xl text-white">
-        回到顶部
-      </div>
+    <div class="bTOP bg-primary-500/80 hover:bg-primary-600/90 rounded-full p-3 shadow-lg transition-all">
+      <Icon name="i-ph-arrow-up-bold" class="mt-3 size-5 shrink-0" color="current" />
     </div>
   </div>
 </template>
 
   <style scoped>
-  /* 自定义过渡动画 */
+.bTOP:hover {
+  /* border: 1px solid rgba(160, 160, 160, 0.5);
+  box-shadow: 0 0 20px rgba(180, 180, 191, 0.5); */
+}
+/* 自定义过渡动画 */
 .back-top {
   transition:
     opacity 0.3s,
     transform 0.3s;
   z-index: 999;
+  cursor: url('/pointer.svg'), pointer !important;
 }
 .back-top:hover {
   transform: translateY(-2px);

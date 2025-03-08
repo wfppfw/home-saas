@@ -6,9 +6,9 @@ const props = defineProps({
   navigation: {
     type: Array,
     default: () => [
-      { name: 'Doc', router: '/doc' },
-      { name: 'Tool', router: '/tool' },
-      { name: 'Toy', router: '/toy' },
+      { name: 'Doc', router: '/doc', icon: 'simple-icons:readdotcv' },
+      { name: 'Tool', router: '/tool', icon: 'ph:telegram-logo-bold' },
+      { name: 'Toy', router: '/toy', icon: 'simple-icons:ghostery' },
     ],
   },
 })
@@ -86,7 +86,7 @@ onBeforeUnmount(() => {
         </div>
 
         <!-- 导航 -->
-        <div class="hidden md:flex md:flex-1 md:flex-justify-end">
+        <div class="mr-6 hidden md:flex md:flex-1 md:flex-justify-end">
           <div class="flex space-x-4">
             <NuxtLink
               v-for="nav in navigation"
@@ -94,6 +94,7 @@ onBeforeUnmount(() => {
               :to="nav.router"
               class="rounded-md px-3 py-2 text-sm text-gray-700 font-medium transition-colors hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-800"
             >
+              <Icon :name="nav.icon" />
               {{ nav.name }}
             </NuxtLink>
           </div>
@@ -151,6 +152,7 @@ onBeforeUnmount(() => {
             :to="nav.router"
             class="block rounded-md px-3 py-2 transition-colors text-nav-color hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-700"
           >
+            <!-- <Icon :name="nav.icon" /> -->
             {{ nav.name }}
           </NuxtLink>
         </div>

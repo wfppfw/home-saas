@@ -292,8 +292,9 @@ onBeforeUnmount(() => {
         </div>
       </div>
     </section>
-
-    <SimpleFourCard />
+    <div class="mx-5 md:mx-20">
+      <SimpleFourCard />
+    </div>
   </div>
 </template>
 

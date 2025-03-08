@@ -1,152 +1,402 @@
-<!-- pages/login.vue -->
 <script setup>
-// 表单字段组件
-// eslint-disable-next-line unused-imports/no-unused-vars
-const FormField = defineProps({
-  label: String,
-  type: { type: String, default: 'text' },
-  required: Boolean,
-  modelValue: String,
-})
+import { computed, ref } from 'vue'
+
+const tabs = ['登录', '注册']
+const activeTab = ref('登录')
 
 definePageMeta({
   layout: 'clean',
 })
 
-const { data: users, refresh } = useFetch('/api/users')
+const imgLeft = ref('/image/22_open.png')
+const imgRight = ref('/image/33_open.png')
 
-console.warn(users, refresh)
-const { $message } = useNuxtApp()
-onMounted(() => {
-  $message.success('测试消息')
+// 登录表单相关
+const loginForm = ref({
+  username: '',
+  password: '',
+  captcha: '',
 })
-// 验证码组件
-// eslint-disable-next-line unused-imports/no-unused-vars
-const CaptchaField = {
-  props: {
-    label: String,
-    modelValue: String,
-    captchaText: String,
-    required: Boolean,
-  },
-  emits: ['update:modelValue', 'refreshCaptcha'],
-  template: `
-      <div>
-        <label class="block text-sm font-medium text-gray-700 mb-2">{{ label }}</label>
-        <div class="flex gap-3">
-          <input
-            :type="'text'"
-            :value="modelValue"
-            @input="$emit('update:modelValue', $event.target.value)"
-            class="flex-1 input-field"
-            required
-          />
-          <div 
-            class="captcha-code bg-gray-100 rounded-md px-4 py-2 cursor-pointer"
-            @click="$emit('refreshCaptcha')"
-            v-html="captchaText"
-          />
-        </div>
-      </div>
-    `,
+const isLoggingIn = ref(false)
+const loginCaptchaCooldown = ref(0)
+
+// 注册表单相关
+const registerForm = ref({
+  username: '',
+  password: '',
+  confirmPassword: '',
+  email: '',
+  captcha: '',
+})
+const isRegistering = ref(false)
+const registerCaptchaCooldown = ref(0)
+
+// 添加密码可见性状态
+const showLoginPassword = ref(false)
+const showRegisterPassword = ref(false)
+const showConfirmPassword = ref(false)
+
+// 焦点状态跟踪
+const passwordFocusStates = ref({
+  login: false,
+  register: false,
+  confirm: false,
+})
+
+// 处理获得焦点事件
+function handlePasswordFocus(type) {
+  passwordFocusStates.value[type] = true
+
+  imgLeft.value = '/image/22_close.png'
+  imgRight.value = '/image/33_close.png'
+//   console.log(`${type}密码框获得焦点`)
+  // 这里可以添加相关逻辑，例如：
+  // - 显示密码强度提示
+  // - 高亮输入框
+  // - 触发动画效果
 }
 
-const activeTab = ref('login')
-const captchaText = ref('')
+// 处理失去焦点事件
+function handlePasswordBlur(type) {
+  passwordFocusStates.value[type] = false
 
-// 登录表单数据
-const loginForm = reactive({
-  username: '',
-  password: '',
-  captcha: '',
-})
+  imgLeft.value = '/image/22_open.png'
+  imgRight.value = '/image/33_open.png'
+//   console.log(`${type}密码框失去焦点`)
+  // 这里可以添加相关逻辑，例如：
+  // - 隐藏密码强度提示
+  // - 触发即时验证
+  // - 自动隐藏密码（安全考虑）
+  // - 保存输入历史
+}
 
-// 注册表单数据
-const registerForm = reactive({
-  username: '',
-  password: '',
-  captcha: '',
-})
+// 验证码倒计时计算
+const loginCaptchaText = computed(() =>
+  loginCaptchaCooldown.value > 0
+    ? `${loginCaptchaCooldown.value}s后重获`
+    : '获取验证码',
+)
 
-// 生成验证码（实际项目应连接后端）
-function generateCaptcha() {
-  const chars = 'ABCDEFGHJKMNPQRSTUVWXYZ23456789'
-  let code = ''
-  for (let i = 0; i < 4; i++) {
-    code += chars.charAt(Math.floor(Math.random() * chars.length))
+const registerCaptchaText = computed(() =>
+  registerCaptchaCooldown.value > 0
+    ? `${registerCaptchaCooldown.value}s后重获`
+    : '获取验证码',
+)
+
+// 验证码相关方法
+function startCooldown(type) {
+  const duration = 60
+  if (type === 'login') {
+    loginCaptchaCooldown.value = duration
+    const timer = setInterval(() => {
+      if (loginCaptchaCooldown.value <= 0) {
+        clearInterval(timer)
+      }
+      else {
+        loginCaptchaCooldown.value--
+      }
+    }, 1000)
   }
-  captchaText.value = code.split('').join('<span class="mx-1">$&</span>')
+  else {
+    registerCaptchaCooldown.value = duration
+    const timer = setInterval(() => {
+      if (registerCaptchaCooldown.value <= 0) {
+        clearInterval(timer)
+      }
+      else {
+        registerCaptchaCooldown.value--
+      }
+    }, 1000)
+  }
+}
+
+function getLoginCaptcha() {
+  // 这里添加获取登录验证码的逻辑
+  startCooldown('login')
+}
+
+function getRegisterCaptcha() {
+  // 这里添加获取注册验证码的逻辑
+  startCooldown('register')
 }
 
 // 表单提交处理
-// eslint-disable-next-line unused-imports/no-unused-vars
 async function handleLogin() {
-  if (loginForm.captcha.toUpperCase() !== captchaText.value.replace(/<[^>]+>/g, '')) {
-    $message.success('验证码错误')
-    return
+  try {
+    isLoggingIn.value = true
+    // 添加登录逻辑
+    console.warn('登录表单提交:', loginForm.value)
+    await new Promise(resolve => setTimeout(resolve, 1000))
   }
-  // 调用登录API
-  $message.success('登录成功（模拟）')
+  finally {
+    isLoggingIn.value = false
+  }
 }
 
-// eslint-disable-next-line unused-imports/no-unused-vars
 async function handleRegister() {
-  if (registerForm.captcha.toUpperCase() !== captchaText.value.replace(/<[^>]+>/g, '')) {
-    $message.success('验证码错误')
-    return
+  try {
+    isRegistering.value = true
+    // 添加注册逻辑
+    console.warn('注册表单提交:', registerForm.value)
+    await new Promise(resolve => setTimeout(resolve, 1000))
   }
-  // 调用注册API
-  $message.success('注册成功（模拟）')
+  finally {
+    isRegistering.value = false
+  }
 }
 
-// 初始化验证码
-onMounted(generateCaptcha)
+// 第三方登录处理
+function handleWechatLogin() {
+  console.warn('微信登录')
+}
+
+function handleAlipayLogin() {
+  console.warn('支付宝登录')
+}
+
+function handleQQLogin() {
+  console.warn('QQ登录')
+}
+
+function handleGithubLogin() {
+  console.warn('支付宝登录')
+}
 </script>
 
 <template>
-  <div class="min-h-screen flex items-center justify-center bg-gray-100 p-4">
-    <div class="max-w-md w-full rounded-xl bg-white p-8 shadow-lg transition-all">
-      <!-- 切换标签 -->
-      <div class="mb-8 flex gap-4">
-        <button
-          class="px-4 pb-2 text-lg font-medium"
-          :class="activeTab === 'login'
-            ? 'border-b-2 border-primary-500 text-primary-600'
-            : 'text-gray-500 hover:text-gray-700'"
-          @click="activeTab = 'login'"
-        >
-          登录
-        </button>
-        <button
-          class="px-4 pb-2 text-lg font-medium"
-          :class="activeTab === 'register'
-            ? 'border-b-2 border-primary-500 text-primary-600'
-            : 'text-gray-500 hover:text-gray-700'"
-          @click="activeTab = 'register'"
-        >
-          注册
-        </button>
+  <div class="relative min-h-screen flex items-center justify-center bg-white p-4">
+    <NuxtLink to="/" class="absolute left-8 top-8 inline-flex items-center gap-2 rounded-full p-2 text-(base) font-medium ring ring-(inset) transition-colors aria-disabled:cursor-not-allowed disabled:cursor-not-allowed aria-disabled:opacity-75 disabled:opacity-75 focus:outline-hidden focus-visible:ring-(2)">
+      <Icon name="ph:arrow-left-bold" class="size-6 shrink-0 text-black" />
+    <!----><!---->
+    </NuxtLink>
+
+    <!-- 装饰图片 -->
+    <img :src="imgLeft" class="absolute bottom-0 left-0 hidden w-20 opacity-50 md:block md:w-32" title="22 from Bilibili！(◕‿◕✿)">
+    <img :src="imgRight" class="absolute bottom-0 right-0 hidden w-20 opacity-50 md:block md:w-32" title="33 from Bilibili！(◕‿◕✿)">
+
+    <!-- 卡片容器 -->
+    <div class="mx-[10rem] max-w-3xl w-full flex flex-col rounded-xl bg-white shadow-xl md:mx-auto">
+      <!-- 第一行：响应式布局 -->
+      <div class="flex flex-col md:flex-row">
+        <!-- 左侧二维码（仅PC显示） -->
+        <div class="hidden items-center justify-center border-r bg-gray-50 p-8 md:w-1/2 md:flex">
+          <div class="aspect-square max-w-48 w-full flex flex-col items-center justify-center gap-2 rounded-lg bg-gray-200">
+            <!-- <span class="text-center text-sm text-gray-500">微信扫一扫<br>快速登录</span> -->
+            <img src="/image/login_qrcode.png" class="h-32 w-32 animate-pulse rounded bg-gray-300">
+            <span class="text-xs text-gray-400">扫码登录 (●´ω｀●)</span>
+          </div>
+        </div>
+
+        <!-- 右侧表单 -->
+        <div class="w-full flex flex-col p-6 md:w-1/2 md:p-8">
+          <!-- Tab切换 -->
+          <div class="mb-6 flex gap-2 md:mb-8">
+            <button
+              v-for="tab in tabs"
+              :key="tab"
+              class="flex-1 rounded-lg px-4 py-2 text-sm font-medium transition-colors" :class="[
+                activeTab === tab
+                  ? 'bg-blue-100 text-blue-600'
+                  : 'text-gray-500 hover:bg-gray-100',
+              ]"
+              @click="activeTab = tab"
+            >
+              {{ tab }}
+            </button>
+          </div>
+
+          <!-- 登录表单 -->
+          <form v-if="activeTab === '登录'" class="space-y-4" @submit.prevent="handleLogin">
+            <input
+              v-model="loginForm.username"
+              type="text"
+              placeholder="昵称"
+              required
+              class="w-full border rounded-lg px-4 py-2.5 text-sm text-black outline-none focus:ring-1 focus:ring-blue-500"
+            >
+
+            <div class="relative">
+              <input
+                v-model="loginForm.password"
+                :type="showLoginPassword ? 'text' : 'password'"
+                placeholder="密码"
+                required
+                class="w-full border rounded-lg px-4 py-2.5 pr-10 text-sm text-black outline-none focus:ring-1 focus:ring-blue-500"
+                @focus="handlePasswordFocus('login')"
+                @blur="handlePasswordBlur('login')"
+              >
+              <button
+                type="button"
+                class="absolute right-3 top-1/2 rounded-full p-1.5 transition-colors -translate-y-1/2 hover:bg-gray-100"
+                @click="showLoginPassword = !showLoginPassword"
+              >
+                <div
+                  class="h-5 w-5 transition-opacity" :class="[
+                    showLoginPassword
+                      ? 'i-ph-eye-slash-light text-gray-400'
+                      : 'i-ph-eye-light text-gray-400',
+                  ]"
+                />
+              </button>
+            </div>
+
+            <div class="flex gap-3">
+              <input
+                v-model="loginForm.captcha"
+                type="text"
+                placeholder="验证码"
+                required
+                class="flex-1 border rounded-lg px-4 py-2.5 text-sm text-black outline-none focus:ring-1 focus:ring-blue-500"
+              >
+              <button
+                type="button"
+                :disabled="loginCaptchaCooldown > 0"
+                class="whitespace-nowrap rounded-lg bg-gray-100 px-4 py-2.5 text-sm transition-colors hover:bg-gray-200 disabled:opacity-50"
+                @click="getLoginCaptcha"
+              >
+                {{ loginCaptchaText }}
+              </button>
+            </div>
+            <button
+              type="submit"
+              :disabled="isLoggingIn"
+              class="w-full rounded-lg bg-blue-600 py-2.5 text-sm text-white font-medium transition-colors hover:bg-blue-700 disabled:opacity-75"
+            >
+              <span v-if="isLoggingIn">登录中...</span>
+              <span v-else>立即登录</span>
+            </button>
+          </form>
+
+          <!-- 注册表单 -->
+          <form v-else class="space-y-4" @submit.prevent="handleRegister">
+            <input
+              v-model="registerForm.username"
+              type="text"
+              placeholder="用户昵称"
+              required
+              class="w-full border rounded-lg px-4 py-2.5 text-sm text-black outline-none focus:ring-1 focus:ring-blue-500"
+            >
+
+            <!-- 注册密码输入框 -->
+            <div class="relative">
+              <input
+                v-model="registerForm.password"
+                :type="showRegisterPassword ? 'text' : 'password'"
+                placeholder="密码"
+                required
+                class="w-full border rounded-lg px-4 py-2.5 pr-10 text-sm text-black outline-none focus:ring-1 focus:ring-blue-500"
+                @focus="handlePasswordFocus('login')"
+                @blur="handlePasswordBlur('login')"
+              >
+              <button
+                type="button"
+                class="absolute right-3 top-1/2 rounded-full p-1.5 transition-colors -translate-y-1/2 hover:bg-gray-100"
+                @click="showRegisterPassword = !showRegisterPassword"
+              >
+                <div
+                  class="h-5 w-5 transition-opacity" :class="[
+                    showRegisterPassword
+                      ? 'i-ph-eye-slash-light text-gray-400'
+                      : 'i-ph-eye-light text-gray-400',
+                  ]"
+                />
+              </button>
+            </div>
+
+            <!-- 确认密码输入框 -->
+            <div class="relative">
+              <input
+                v-model="registerForm.confirmPassword"
+                :type="showConfirmPassword ? 'text' : 'password'"
+                placeholder="确认密码"
+                class="w-full border rounded-lg px-4 py-2.5 pr-10 text-sm text-black outline-none focus:ring-1 focus:ring-blue-500"
+                @focus="handlePasswordFocus('login')"
+                @blur="handlePasswordBlur('login')"
+              >
+              <button
+                type="button"
+                class="absolute right-3 top-1/2 rounded-full p-1.5 transition-colors -translate-y-1/2 hover:bg-gray-100"
+                @click="showConfirmPassword = !showConfirmPassword"
+              >
+                <div
+                  class="h-5 w-5 transition-opacity" :class="[
+                    showConfirmPassword
+                      ? 'i-ph-eye-slash-light text-gray-400'
+                      : 'i-ph-eye-light text-gray-400',
+                  ]"
+                />
+              </button>
+            </div>
+
+            <!-- <input
+              v-model="registerForm.email"
+              type="email"
+              placeholder="邮箱（选填）"
+              class="w-full border rounded-lg px-4 py-2.5 text-sm outline-none focus:ring-1 focus:ring-blue-500"
+            > -->
+            <div class="flex gap-3">
+              <input
+                v-model="registerForm.captcha"
+                type="text"
+                placeholder="验证码"
+                required
+                class="flex-1 border rounded-lg px-4 py-2.5 text-sm text-black outline-none focus:ring-1 focus:ring-blue-500"
+              >
+              <button
+                type="button"
+                :disabled="registerCaptchaCooldown > 0"
+                class="whitespace-nowrap rounded-lg bg-gray-100 px-4 py-2.5 text-sm transition-colors hover:bg-gray-200 disabled:opacity-50"
+                @click="getRegisterCaptcha"
+              >
+                {{ registerCaptchaText }}
+              </button>
+            </div>
+            <button
+              type="submit"
+              :disabled="isRegistering"
+              class="w-full rounded-lg bg-blue-600 py-2.5 text-sm text-white font-medium transition-colors hover:bg-blue-700 disabled:opacity-75"
+            >
+              <span v-if="isRegistering">注册中...</span>
+              <span v-else>立即注册</span>
+            </button>
+          </form>
+
+          <!-- 第三方登录 -->
+          <div class="mt-6 border-t border-gray-100 pt-6">
+            <p class="mb-4 text-center text-sm text-gray-500">
+              其他登录方式
+            </p>
+            <div class="flex justify-center gap-4">
+              <!-- <button
+                class="rounded-full p-2.5 transition-colors hover:bg-gray-100"
+                @click="handleWechatLogin"
+              >
+                <div class="i-logos-wechat h-6 w-6 text-green-600" />
+              </button> -->
+              <button
+
+                @click="handleGithubLogin"
+              >
+                <Icon name="simple-icons:github" class="size-5 h-6 w-6" color="current" />
+              </button>
+              <!-- <button
+                class="rounded-full p-2.5 transition-colors hover:bg-gray-100"
+                @click="handleQQLogin"
+              >
+                <div class="i-logos-qq h-6 w-6 text-blue-400" />
+              </button> -->
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 底部说明 -->
+      <div class="border-t bg-gray-50 p-4">
+        <p class="text-center text-xs text-gray-500 leading-5">
+          注册即代表同意《用户协议》和《隐私政策》<br>
+          © {{ new Date().getFullYear() }} on the Moon. All rights reserved.
+        </p>
       </div>
     </div>
   </div>
 </template>
-
-  <style>
-  /* 自定义样式 */
-.input-field {
-  @apply w-full px-3 py-2 border border-gray-300 rounded-md
-           focus:ring-2 focus:ring-primary-500 focus:border-primary-500
-           transition-all placeholder-gray-400;
-}
-
-.btn-primary {
-  @apply bg-primary-600 text-white px-4 py-2 rounded-md
-           hover:bg-primary-700 focus:ring-2 focus:ring-primary-500
-           focus:ring-offset-2 transition-all;
-}
-
-.captcha-code {
-  @apply select-none font-mono tracking-wider
-           hover:bg-gray-200 transition-colors;
-}
-</style>

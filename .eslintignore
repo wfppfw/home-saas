@@ -1,0 +1,9 @@
+# 忽略整个目录
+.nuxt/
+dist/
+node_modules/
+.output
+.nuxt
+.env
+public/js/
+*.js
