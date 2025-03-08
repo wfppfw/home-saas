@@ -8,6 +8,12 @@ definePageMeta({
   layout: 'clean',
 })
 
+const router = useRouter()
+
+function goBack() {
+  router.go(-1) // -1 表示返回上一页
+}
+
 const imgLeft = ref('/image/22_open.png')
 const imgRight = ref('/image/33_open.png')
 
@@ -165,10 +171,10 @@ function handleGithubLogin() {
 
 <template>
   <div class="relative min-h-screen flex items-center justify-center bg-white p-4">
-    <NuxtLink to="/" class="absolute left-8 top-8 inline-flex items-center gap-2 rounded-full p-2 text-(base) font-medium ring ring-(inset) transition-colors aria-disabled:cursor-not-allowed disabled:cursor-not-allowed aria-disabled:opacity-75 disabled:opacity-75 focus:outline-hidden focus-visible:ring-(2)">
+    <button class="absolute left-8 top-8 inline-flex items-center gap-2 rounded-full p-2 text-(base) font-medium ring ring-(inset) transition-colors aria-disabled:cursor-not-allowed disabled:cursor-not-allowed aria-disabled:opacity-75 disabled:opacity-75 focus:outline-hidden focus-visible:ring-(2)" @click="goBack">
       <Icon name="ph:arrow-left-bold" class="size-6 shrink-0 text-black" />
     <!----><!---->
-    </NuxtLink>
+    </button>
 
     <!-- 装饰图片 -->
     <img :src="imgLeft" class="absolute bottom-0 left-0 hidden w-20 opacity-50 md:block md:w-32" title="22 from Bilibili！(◕‿◕✿)">

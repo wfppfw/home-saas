@@ -290,6 +290,10 @@ onBeforeUnmount(() => {
             Chat with my kitty
           </NuxtLink>
         </div>
+
+        <!-- <button>
+          <Icon name="ph:arrow-circle-down-duotone" />
+        </button> -->
       </div>
     </section>
     <div class="mx-5 md:mx-20">
