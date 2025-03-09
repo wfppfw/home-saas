@@ -14,7 +14,7 @@ defineProps({
 <template>
   <div class="text-block">
     <h1 class="title">
-      Record the bits and pieces of <span style="color:#4F46E5">life</span>
+      {{ title }}
     </h1>
     <p class="description">
       {{ description }}

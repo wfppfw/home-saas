@@ -37,11 +37,11 @@ defineProps({
   >
     <!-- 文字区域 -->
     <div
-      class="order-1 flex flex-1 flex-col justify-center"
+      class="order-1 mt-20 flex flex-1 flex-col justify-center md:mt-10"
       :class="textPosition === 'left' ? 'md:order-1' : 'md:order-2'"
     >
       <h2 class="text-center text-lg font-bold md:text-left md:text-xl">
-        Luminous whispers of <span class="">moonlight</span> brush tenderly across the veil of night.
+        Luminous whispers of <span style="color:#4F46E5">moonlight</span> brush tenderly across the veil of night.
       </h2>
       <p class="mt-2 max-w-3xl text-center text-sm text-gray-600 md:text-left md:text-base">
         {{ description }}
@@ -50,8 +50,8 @@ defineProps({
 
     <!-- 图片区域 -->
     <div
-      class="leftImg order-2 flex-shrink-0 md:order-1"
-      :class="imageSize === 'small' ? 'w-24 h-24 md:w-32 md:h-32' : 'w-48 h-48 md:w-72 md:h-72'"
+      class="leftImg order-2 mt-50 flex-shrink-0 md:order-1 md:mt-10"
+      :class="imageSize === 'small' ? 'w-24 h-24 md:w-32 md:h-32' : 'w-48 h-48 md:w-64 md:h-64'"
     >
       <img
         src="/moon.svg"

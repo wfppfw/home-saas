@@ -284,17 +284,13 @@ onBeforeUnmount(() => {
         <div class="cta-group">
           <NuxtLink to="/projects" class="cta-button glow-effect">
             <Icon name="ph:rocket-launch" class="icon" />
-            View some project
+            know
           </NuxtLink>
           <NuxtLink to="/chat" class="cta-button secondary">
             <Icon name="ph:chat-circle-dots" class="icon" />
             Chat with my kitty
           </NuxtLink>
         </div>
-
-        <!-- <button>
-          <Icon name="ph:arrow-circle-down-duotone" />
-        </button> -->
       </div>
     </section>
 
@@ -315,31 +311,49 @@ onBeforeUnmount(() => {
       />
     </div>
 
-    <div class="mx-5 md:mx-20">
+    <div class="mx-5 mt-20 md:mx-10 md:mt-20">
       <LazySimpleRightTextBlock
         title="Luminous whispers of moonlight brush tenderly across the veil of night."
         description="This digital realm weaves lunar motifs with feline companions, but may their cosmic charm not overwhelm your senses."
       />
     </div>
 
-    <div class="mx-5 md:mx-20">
-      <SimpleOneCard
-        image-url="https://via.placeholder.com/150"
-        title="Card Title"
-        description="This is a description for the card. It can be a bit longer to show how the text wraps."
+    <div class="mx-5 mt-20 md:mx-20">
+      <LazySimpleTextBlockTemp
+        title="Some favorite things"
+        description="In addition to furry cats and the moon in the sky, I also like the following..."
       />
     </div>
-
+    <!-- 六卡片 -->
     <div class="mx-5 md:mx-20">
-      <SimpleSixCard />
+      <LazySimpleSixCard />
+    </div>
+
+    <div class="mx-5 mt-20 md:mx-20">
+      <LazySimpleTextBlockTemp
+        title="What's new lately"
+        description="Maybe they’ve posted a new blog entry, or maybe they’ve shared some fun new photos."
+      />
     </div>
 
     <div class="mx-5 md:mx-20">
       <SimpleFourCard />
     </div>
 
-    <div class="mx-5 h-100 md:mx-20">
-      <SimpleStartBg />
+    <!-- 自定义参数示例 -->
+    <!-- <Divider
+      color="rgb(229 231 235)"
+      spacing="0 20px"
+      custom-class="my-custom-divider"
+    /> -->
+    <div class="mx-5 h-100 flex md:mx-20">
+      <LazySimpleTextBlockTemp
+        style="transform: translate(-50%);margin-top: 125px;width: 100%;"
+        class="absolute left-50% mt-150 transform"
+        title="Blank  of  end"
+        description="Reserve an expanse of purposeful negative space here to cultivate visual elegance"
+      />
+      <LazySimpleStartBg />
     </div>
   </div>
 </template>

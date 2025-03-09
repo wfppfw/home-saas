@@ -1,5 +1,5 @@
 <template>
-  <div class="stars pointer-events-none absolute inset-x-0 top-0 size-full opacity-75">
+  <div class="stars pointer-events-none inset-x-0 top-0 size-full opacity-75">
     <div class="h-px w-px rounded-full bg-transparent" />
     <div class="h-px w-px rounded-full bg-transparent" />
     <div class="h-px w-px rounded-full bg-transparent" />
@@ -28,7 +28,7 @@
   );
   -webkit-mask-size: cover;
   mask-size: cover;
-  transform: translate(-50%);
+  /* transform: translate(-50%); */
 
   --color: #000;
 }

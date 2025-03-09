@@ -31,6 +31,25 @@ const cards = ref([
     description: 'Life\'s too short – catch some Z\'s while you can!',
   },
 ])
+
+// 鼠标坐标追踪
+const cardRefs = ref<HTMLElement[]>([])
+const currentHoverIndex = ref(-1)
+const gradientPos = reactive({ x: 50, y: 50 })
+
+function handleMouseMove(event: MouseEvent, index: number) {
+  currentHoverIndex.value = index
+  const card = cardRefs.value[index]
+  if (!card)
+    return
+
+  const rect = card.getBoundingClientRect()
+  const x = ((event.clientX - rect.left) / rect.width) * 100
+  const y = ((event.clientY - rect.top) / rect.height) * 100
+
+  gradientPos.x = x
+  gradientPos.y = y
+}
 </script>
 
 <template>
@@ -38,12 +57,24 @@ const cards = ref([
     <div
       v-for="(card, index) in cards"
       :key="index"
-      class="relative rounded-lg bg-white p-4 shadow-md transition-all duration-300 dark:bg-gray-800 hover:shadow-lg"
+      class="relative border border-gray-200 rounded-lg bg-white p-4 transition-all duration-300 dark:border-gray-700 hover:border-gray-300 dark:bg-gray-800 dark:hover:border-gray-500"
+      @mousemove="handleMouseMove($event, index)"
+      @mouseleave="currentHoverIndex = -1"
     >
+      <!-- 光晕遮罩层 -->
+      <div
+        class="pointer-events-none absolute inset-0 rounded-lg opacity-0 transition-opacity duration-300 group-hover:opacity-100"
+        :style="{
+          background: currentHoverIndex === index
+            ? `radial-gradient(circle at ${gradientPos.x}% ${gradientPos.y}%, rgba(79, 70, 229, 0.08) 0%, transparent 70%)`
+            : 'transparent',
+        }"
+      />
+
       <!-- 图标容器 -->
       <div class="mb-2 flex items-center">
         <div class="text-xl text-blue-500 dark:text-blue-300">
-          <Icon :name="card.icon" />
+          <Icon :name="card.icon" class="iconClass" />
         </div>
       </div>
 
@@ -62,4 +93,7 @@ const cards = ref([
 
   <style>
   /* 通过 UnoCSS 自动生成所需样式 */
+.iconClass {
+  color: #4f46e5;
+}
 </style>
