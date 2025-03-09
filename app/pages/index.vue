@@ -1,4 +1,5 @@
 <script setup>
+import { SimpleStartBg } from '#components'
 import * as THREE from 'three'
 
 definePageMeta({
@@ -296,8 +297,49 @@ onBeforeUnmount(() => {
         </button> -->
       </div>
     </section>
+
+    <div class="mx-5 md:mx-20">
+      <LazySimpleTextBlock
+        title="Record the bits and pieces of life"
+        description="I will occasionally update this space with articles and photos (when I'm not feeling lazy (￣▽￣*)ゞ)."
+      />
+    </div>
+
+    <div class="mx-5 md:mx-20">
+      <LazySimpleImgTextBlock
+        image-src="/image.jpg"
+        title="The auspicious kitty confers heavenly grace upon thee."
+        description="The homepage showcases an intentional felinomorphic design system, with stochastic pattern arrangements that may require user experience calibration regarding visual density perception."
+        layout="right"
+        image-size="small"
+      />
+    </div>
+
+    <div class="mx-5 md:mx-20">
+      <LazySimpleRightTextBlock
+        title="Luminous whispers of moonlight brush tenderly across the veil of night."
+        description="This digital realm weaves lunar motifs with feline companions, but may their cosmic charm not overwhelm your senses."
+      />
+    </div>
+
+    <div class="mx-5 md:mx-20">
+      <SimpleOneCard
+        image-url="https://via.placeholder.com/150"
+        title="Card Title"
+        description="This is a description for the card. It can be a bit longer to show how the text wraps."
+      />
+    </div>
+
+    <div class="mx-5 md:mx-20">
+      <SimpleSixCard />
+    </div>
+
     <div class="mx-5 md:mx-20">
       <SimpleFourCard />
+    </div>
+
+    <div class="mx-5 h-100 md:mx-20">
+      <SimpleStartBg />
     </div>
   </div>
 </template>

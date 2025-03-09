@@ -12,7 +12,7 @@ let mixer: any = null
 onMounted(() => {
   const clock = new THREE.Clock()
   const container = document.getElementById('container3d')
-  const containerBody = document.getElementsByTagName('body')
+  // const containerBody = document.getElementsByTagName('body')
   const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true })
   renderer.setPixelRatio(window.devicePixelRatio)
   renderer.setSize(500, 500)
@@ -35,7 +35,7 @@ onMounted(() => {
   ).texture
 
   const camera = new THREE.PerspectiveCamera(40, 1, 1, 100)
-  camera.position.set(-2, 2, 20)
+  camera.position.set(2, 2, -20)
 
   const controls = new OrbitControls(camera, renderer.domElement)
   // controls.target.set( 0, 0.5, 0 );
@@ -55,6 +55,7 @@ onMounted(() => {
       const model = gltf.scene
       model.position.set(0, 0, 0)
       model.scale.set(0.15, 0.15, 0.15)
+      model.rotation.set(0, 2 * Math.PI, 0)
       scene.add(model)
 
       mixer = new THREE.AnimationMixer(model)
@@ -99,10 +100,19 @@ onMounted(() => {
 
 <style scoped>
 #container3d {
-  height: 500px;
-  width: 500px;
-  position: fixed;
+  cursor: url('/pointer.svg'), pointer !important;
+  height: 270px;
+  width: 440px;
+  overflow: hidden;
+
+  /* position: fixed;
   bottom: 0px;
-  right: 50%;
+  right: 50%; */
+}
+
+@media (min-width: 768px) {
+  #container3d {
+    margin-left: -100px; /* 覆盖为桌面端样式 */
+  }
 }
 </style>
