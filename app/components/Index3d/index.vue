@@ -42,7 +42,7 @@ onMounted(() => {
   // controls.update();
   // controls.enablePan = true;
   // controls.enableDamping = true;
-  // controls.enableZoom = false; //鼠标缩放
+  controls.enableZoom = false // 鼠标缩放
   // controls.minDistance = 0;
   const dracoLoader = new DRACOLoader()
   dracoLoader.setDecoderPath('jsm/libs/draco/gltf/')

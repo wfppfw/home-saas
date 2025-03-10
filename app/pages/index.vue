@@ -284,7 +284,7 @@ onBeforeUnmount(() => {
         <div class="cta-group">
           <NuxtLink to="/projects" class="cta-button glow-effect">
             <Icon name="ph:rocket-launch" class="icon" />
-            know
+            View some project
           </NuxtLink>
           <NuxtLink to="/chat" class="cta-button secondary">
             <Icon name="ph:chat-circle-dots" class="icon" />
@@ -337,7 +337,7 @@ onBeforeUnmount(() => {
     </div>
 
     <div class="mx-5 md:mx-20">
-      <SimpleFourCard />
+      <LazySimpleFourCard />
     </div>
 
     <!-- 自定义参数示例 -->

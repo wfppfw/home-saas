@@ -1,192 +1,30 @@
+<!-- definePageMeta({
+  layout: 'clean',
+})
+
+// 客户端发送 POST 请求示例
+const { data, error } = await useFetch('/api/chat', {
+  method: 'POST',
+  body: {
+    name: 'John',
+    age: 30,
+    model: 'deepseek-reasoner', // deepseek-reasoner deepseek-chat
+    message: [{ role: 'user', content: 'What\'s the highest mountain in the world?' }],
+  },
+  // 可选配置
+  headers: {
+    'Content-Type': 'application/json',
+  },
+  params: {
+    debug: true, // 附加查询参数
+  },
+}) -->
 <!doctype html>
-<html lang="en" class="dark">
+<html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Fixed Header Demo</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <style>
-      /* 修复 iOS 15+ 的 fixed 定位问题 */
-      @supports (height: 100dvh) {
-        body {
-          min-height: 100dvh;
-          min-height: -webkit-fill-available;
-        }
-      }
-    </style>
+    <title>Document</title>
   </head>
-  <body class="dark:bg-gray-900 pt-16">
-    <!-- 添加 padding-top 防止内容被遮挡 -->
-    <!-- 增强版 Fixed Header -->
-    <header
-      class="fixed inset-x-0 top-0 z-[999] backdrop-blur supports-backdrop-blur:bg-white/95 dark:bg-gray-900/75 transition-all duration-300 border-b border-gray-200/50 dark:border-gray-800/50"
-      id="header"
-    >
-      <nav class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div class="flex h-16 items-center justify-between">
-          <!-- 左侧 Logo 和导航 -->
-          <div class="flex items-center">
-            <a href="#" class="flex items-center space-x-2">
-              <svg class="h-6 w-6 text-blue-500" fill="currentColor" viewBox="0 0 24 24">
-                <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" />
-              </svg>
-              <span class="text-xl font-bold text-gray-900 dark:text-white">NuxtUI</span>
-            </a>
-
-            <div class="hidden md:ml-8 md:block">
-              <div class="flex space-x-4">
-                <a
-                  href="#"
-                  class="rounded-md px-3 py-2 text-sm font-medium text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-800 transition-colors"
-                >
-                  Documentation
-                </a>
-                <a
-                  href="#"
-                  class="rounded-md px-3 py-2 text-sm font-medium text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-800 transition-colors"
-                >
-                  Components
-                </a>
-                <a
-                  href="#"
-                  class="rounded-md px-3 py-2 text-sm font-medium text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-800 transition-colors"
-                >
-                  Pro
-                </a>
-              </div>
-            </div>
-          </div>
-
-          <!-- 右侧操作区 -->
-          <div class="flex items-center space-x-3">
-            <button class="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors">
-              <svg
-                class="h-5 w-5 text-gray-700 dark:text-gray-300"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
-                  d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707"
-                />
-              </svg>
-            </button>
-
-            <button
-              class="hidden md:inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-gradient-to-r from-blue-500 to-purple-500 hover:from-blue-600 hover:to-purple-600 transition-all"
-            >
-              Get Started
-            </button>
-
-            <!-- 移动端菜单按钮 -->
-            <button
-              class="md:hidden p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
-              id="mobile-menu-button"
-            >
-              <svg
-                class="h-6 w-6 text-gray-700 dark:text-gray-300"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
-              </svg>
-            </button>
-          </div>
-        </div>
-      </nav>
-    </header>
-
-    <!-- 移动端菜单 -->
-    <div
-      class="md:hidden hidden fixed inset-x-0 top-16 z-[998] bg-white dark:bg-gray-800 shadow-lg transition-transform duration-300"
-      id="mobile-menu"
-    >
-      <div class="px-4 pt-2 pb-3 space-y-1">
-        <a
-          href="#"
-          class="block px-3 py-2 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-md transition-colors"
-        >
-          Documentation
-        </a>
-        <a
-          href="#"
-          class="block px-3 py-2 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-md transition-colors"
-        >
-          Components
-        </a>
-        <a
-          href="#"
-          class="block px-3 py-2 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-md transition-colors"
-        >
-          Pro
-        </a>
-      </div>
-    </div>
-
-    <!-- 页面内容 -->
-    <main class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-8">
-      <!-- 示例内容 -->
-      <div class="h-screen bg-gray-50 dark:bg-gray-800 rounded-lg p-8">
-        <h1 class="text-2xl font-bold text-gray-900 dark:text-white">Main Content</h1>
-        <p class="text-gray-600 dark:text-gray-300 mt-4">Scroll to see header behavior...</p>
-      </div>
-    </main>
-
-    <script>
-      document.addEventListener('DOMContentLoaded', () => {
-        const header = document.getElementById('header')
-        const mobileMenuButton = document.getElementById('mobile-menu-button')
-        const mobileMenu = document.getElementById('mobile-menu')
-
-        // 初始滚动状态检查
-        updateHeaderScroll(window.scrollY)
-
-        // 滚动事件优化
-        let lastScroll = 0
-        window.addEventListener('scroll', () => {
-          const currentScroll = window.scrollY
-
-          // 优化滚动方向判断
-          if (Math.abs(currentScroll - lastScroll) > 5) {
-            updateHeaderScroll(currentScroll)
-            lastScroll = currentScroll
-          }
-        })
-
-        function updateHeaderScroll(scrollY) {
-          if (scrollY > 50) {
-            header.classList.add('bg-white/80', 'dark:bg-gray-900/90', 'shadow-sm')
-            header.classList.remove('border-b-transparent')
-          } else {
-            header.classList.remove('bg-white/80', 'dark:bg-gray-900/90', 'shadow-sm')
-            header.classList.add('border-b-transparent')
-          }
-        }
-
-        // 移动端菜单切换
-        mobileMenuButton.addEventListener('click', () => {
-          const isOpen = mobileMenu.classList.toggle('hidden')
-          // 添加滑动动画
-          mobileMenu.style.transform = isOpen ? 'translateY(-20px)' : 'translateY(0)'
-        })
-
-        // 点击外部关闭菜单
-        document.addEventListener('click', (e) => {
-          if (!mobileMenu.contains(e.target)) {
-            mobileMenu.classList.add('hidden')
-          }
-        })
-
-        // 暗黑模式切换
-        document.querySelector('[aria-label="Toggle dark mode"]').addEventListener('click', () => {
-          document.documentElement.classList.toggle('dark')
-          localStorage.setItem('theme', document.documentElement.classList.contains('dark') ? 'dark' : 'light')
-        })
-      })
-    </script>
-  </body>
+  <body></body>
 </html>

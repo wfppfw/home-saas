@@ -54,7 +54,7 @@ onBeforeUnmount(() => {
         >
           <div
             class="max-h-[90vh] flex flex-col rounded-lg bg-white shadow-xl"
-            :style="{ maxWidth: width }"
+            :style="{ maxWidth: props.width }"
           >
             <!-- Header -->
             <div class="flex items-center justify-between border-b border-gray-200 p-4">

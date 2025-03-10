@@ -2,7 +2,7 @@
 defineProps({
   imageSrc: {
     type: String,
-    required: true,
+    required: false,
   },
   title: {
     type: String,
@@ -37,7 +37,7 @@ defineProps({
   >
     <!-- 文字区域 -->
     <div
-      class="order-1 mt-20 flex flex-1 flex-col justify-center md:mt-10"
+      class="textClass order-1 mt-20 flex flex-1 flex-col justify-center md:mt-10"
       :class="textPosition === 'left' ? 'md:order-1' : 'md:order-2'"
     >
       <h2 class="text-center text-lg font-bold md:text-left md:text-xl">
@@ -73,9 +73,10 @@ defineProps({
   right: 50%; */
 }
 
-@media (min-width: 768px) {
-  .leftImg {
-    /* margin-left: 150px; 覆盖为桌面端样式 */
+@media (min-width: 1200px) {
+  .textClass {
+    margin-left: 200px;
+    /* 覆盖为桌面端样式 */
   }
 }
 </style>

@@ -19,6 +19,7 @@ export default defineNuxtConfig({
   },
 
   app: {
+    pageTransition: { name: 'page', mode: 'out-in' },
     head: {
       viewport: 'width=device-width,initial-scale=1',
       link: [
@@ -94,11 +95,10 @@ export default defineNuxtConfig({
   future: {
     compatibilityVersion: 4,
   },
-
   experimental: {
     // when using generate, payload js assets included in sw precache manifest
     // but missing on offline, disabling extraction it until fixed
-    payloadExtraction: false,
+    payloadExtraction: false, // 禁用预加载提取
     renderJsonPayloads: true,
     typedPages: true,
   },
