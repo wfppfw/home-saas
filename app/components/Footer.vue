@@ -2,11 +2,11 @@
 <script setup>
 const darkMode = ref(false)
 
-function toggleTheme() {
-  darkMode.value = !darkMode.value
-  document.documentElement.classList.toggle('dark', darkMode.value)
-  localStorage.setItem('theme', darkMode.value ? 'dark' : 'light')
-}
+// function toggleTheme() {
+//   darkMode.value = !darkMode.value
+//   document.documentElement.classList.toggle('dark', darkMode.value)
+//   localStorage.setItem('theme', darkMode.value ? 'dark' : 'light')
+// }
 
 onMounted(() => {
   const savedTheme = localStorage.getItem('theme')
@@ -39,16 +39,6 @@ onMounted(() => {
 
         <!-- 操作按钮组（大屏右侧） -->
         <div class="order-1 flex items-center justify-center gap-x-3 lg:order-3 lg:flex-1 lg:justify-end">
-          <button
-            class="focus-visible:ring-primary-500 dark:focus-visible:ring-primary-400 inline-flex flex-shrink-0 items-center gap-x-1.5 rounded-md p-1.5 text-sm text-gray-700 font-medium aria-disabled:cursor-not-allowed disabled:cursor-not-allowed hover:bg-gray-50 dark:text-gray-200 hover:text-gray-900 aria-disabled:opacity-75 disabled:opacity-75 focus-visible:outline-0 focus:outline-none focus-visible:ring-2 focus-visible:ring-inset dark:hover:bg-gray-800 dark:hover:text-white"
-
-            aria-label="Toggle theme"
-            @click="toggleTheme"
-          >
-            <Icon name="ix:bulb" class="size-5 shrink-0" color="current" />
-          <!-- ix:bulb-filled -->
-          </button>
-
           <a
             href="https://github.com/wfppfw"
             target="_blank"
@@ -56,6 +46,17 @@ onMounted(() => {
             class="focus-visible:ring-primary-500 dark:focus-visible:ring-primary-400 inline-flex flex-shrink-0 items-center gap-x-1.5 rounded-md p-1.5 text-sm text-gray-700 font-medium aria-disabled:cursor-not-allowed disabled:cursor-not-allowed hover:bg-gray-50 dark:text-gray-200 hover:text-gray-900 aria-disabled:opacity-75 disabled:opacity-75 focus-visible:outline-0 focus:outline-none focus-visible:ring-2 focus-visible:ring-inset dark:hover:bg-gray-800 dark:hover:text-white"
           >
             <Icon name="simple-icons:github" class="size-5 shrink-0" color="current" />
+
+          </a>
+          <a
+            href="https://github.com/wfppfw"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="focus-visible:ring-primary-500 dark:focus-visible:ring-primary-400 inline-flex flex-shrink-0 items-center gap-x-1.5 rounded-md p-1.5 text-sm text-gray-700 font-medium aria-disabled:cursor-not-allowed disabled:cursor-not-allowed hover:bg-gray-50 dark:text-gray-200 hover:text-gray-900 aria-disabled:opacity-75 disabled:opacity-75 focus-visible:outline-0 focus:outline-none focus-visible:ring-2 focus-visible:ring-inset dark:hover:bg-gray-800 dark:hover:text-white"
+          >
+
+            <Icon name="ph:television-simple-fill" class="size-5 shrink-0" color="current" />
+
           </a>
         </div>
       </div>

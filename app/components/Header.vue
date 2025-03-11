@@ -6,7 +6,7 @@ const props = defineProps({
   navigation: {
     type: Array,
     default: () => [
-      { name: 'Doc', router: '/doc', icon: 'simple-icons:readdotcv' },
+      { name: 'Blog', router: '/doc', icon: 'simple-icons:readdotcv' },
       { name: 'Tool', router: '/tool', icon: 'ph:telegram-logo-bold' },
       { name: 'Toy', router: '/toy', icon: 'simple-icons:ghostery' },
     ],
@@ -33,11 +33,11 @@ function handleScroll() {
 }
 
 // 切换暗黑模式
-function toggleDarkMode() {
-  darkMode.value = !darkMode.value
-  document.documentElement.classList.toggle('dark', darkMode.value)
-  localStorage.setItem('theme', darkMode.value ? 'dark' : 'light')
-}
+// function toggleDarkMode() {
+//   darkMode.value = !darkMode.value
+//   document.documentElement.classList.toggle('dark', darkMode.value)
+//   localStorage.setItem('theme', darkMode.value ? 'dark' : 'light')
+// }
 
 // 切换移动菜单
 function toggleMobileMenu() {
@@ -79,7 +79,7 @@ onBeforeUnmount(() => {
       <div class="h-16 flex items-center justify-between">
         <!-- 左侧 Logo 和导航 -->
         <div class="flex items-center">
-          <NuxtLink to="/" class="flex items-center space-x-2">
+          <NuxtLink to="/" class="flex items-center space-x-2" title="home">
             <img src="/head-moon.svg">
             <span class="text-xl text-gray-900 font-bold dark:text-white" />
           </NuxtLink>
@@ -92,9 +92,9 @@ onBeforeUnmount(() => {
               v-for="nav in navigation"
               :key="nav.name"
               :to="nav.router"
-              class="rounded-md px-3 py-2 text-sm text-gray-700 font-medium transition-colors hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-800"
+              class="font-blod rounded-md px-3 py-2 text-4 text-gray-700 font-bold transition-colors hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-800"
             >
-              <Icon :name="nav.icon" />
+              <!-- <Icon :name="nav.icon" /> -->
               {{ nav.name }}
             </NuxtLink>
           </div>
@@ -102,16 +102,15 @@ onBeforeUnmount(() => {
 
         <!-- 右侧操作区 -->
         <div class="flex items-center space-x-3">
-          <button
+          <DarkMode class="mt-2" />
+          <!-- <button
             class="rounded-lg p-2 transition-colors hover:bg-gray-100 dark:hover:bg-gray-800"
             @click="toggleDarkMode"
           >
             <svg class="h-5 w-5 text-gray-700 dark:text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707" />
             </svg>
-
-            <!-- <Icon name="ix:bulb shrink-0 size-5 h-5 w-5 text-gray-700 dark:text-gray-300" color="currentColor" /> -->
-          </button>
+          </button> -->
 
           <button class="hidden items-center border border-transparent rounded-md from-blue-500 to-purple-500 bg-gradient-to-r px-4 py-2 text-sm text-white font-medium transition-all md:inline-flex hover:from-blue-600 hover:to-purple-600">
             <NuxtLink to="/login">

@@ -31,6 +31,7 @@ onMounted(() => {
 html,
 body,
 #__nuxt {
+  scroll-behavior: smooth;
   height: 100vh;
   margin: 0;
   padding: 0;
@@ -101,4 +102,27 @@ html.dark {
     --scrollbar-track: rgba(30, 30, 30, 0.3);
   }
 } */
+
+::view-transition-old(root),
+::view-transition-new(root) {
+  mix-blend-mode: normal;
+  animation: none;
+}
+
+/* 进入dark模式和退出dark模式时，两个图像的位置顺序正好相反 */
+.dark::view-transition-old(root) {
+  z-index: 1;
+}
+
+.dark::view-transition-new(root) {
+  z-index: 999;
+}
+
+::view-transition-old(root) {
+  z-index: 999;
+}
+
+::view-transition-new(root) {
+  z-index: 1;
+}
 </style>
