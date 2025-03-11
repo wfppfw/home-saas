@@ -36,13 +36,13 @@ const randomResponses = [
 
 const textareaStyle = computed(() => ({
   minHeight: '4rem',
-  maxHeight: window.innerWidth >= 768 ? '645px' : '425px',
+  maxHeight: window?.innerWidth >= 768 ? '645px' : '425px',
   paddingBottom: '3rem',
 }))
 
 // 响应式处理
 function checkMobile() {
-  mobileView.value = window.innerWidth < 768
+  mobileView.value = window?.innerWidth < 768
   if (mobileView.value) {
     isSidebarCollapsed.value = true
   }

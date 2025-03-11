@@ -23,8 +23,10 @@
     "nuxt-icons": "^3.2.1",
     "openai": "^4.86.2",
     "qrcode": "^1.5.4",
+    "remark-oembed": "^1.2.2",
     "svg-captcha": "^1.4.0",
     "three": "^0.174.0",
+    "typed.js": "^2.1.0",
     "vue-content-loader": "^2.0.1"
   },
   "devDependencies": {

@@ -12,6 +12,7 @@ export default defineNuxtConfig({
     'nuxt-icon',
     '@nuxt/content',
     '@nuxtjs/mdc',
+    '@nuxtjs/color-mode',
   ],
 
   devtools: {

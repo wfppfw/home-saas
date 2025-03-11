@@ -11,7 +11,7 @@ onMounted(() => {
 
 <template>
   <VitePwaManifest />
-
+  <!-- <LoadingProgress /> -->
   <NuxtLayout>
     <NuxtPage />
   </NuxtLayout>
