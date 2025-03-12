@@ -224,6 +224,31 @@ onMounted(() => {
 
     // 新增点击事件监听
     renderer.domElement.addEventListener('click', handleClick)
+
+    // 桌面端启动
+    const code = [
+      'ArrowUp',
+      'ArrowUp',
+      'ArrowDown',
+      'ArrowDown',
+      'ArrowLeft',
+      'ArrowRight',
+      'ArrowLeft',
+      'ArrowRight',
+      'KeyB',
+      'KeyA',
+    ]
+
+    const input = []
+
+    window.addEventListener('keydown', (e) => {
+      input.push(e.code)
+
+      if (input.join('').endsWith(code.join(''))) {
+        console.warn('触发彩蛋')
+        // 触发彩蛋
+      }
+    })
   }
 })
 
@@ -347,12 +372,13 @@ onBeforeUnmount(() => {
       custom-class="my-custom-divider"
     /> -->
     <div class="mx-5 h-100 flex md:mx-20">
-      <LazySimpleTextBlockTemp
+      <LazySimpleTextBlockContent
         style="transform: translate(-50%);margin-top: 125px;width: 100%;"
         class="absolute left-50% mt-150 transform"
         title="Blank  of  end"
         description="Reserve an expanse of purposeful negative space here to cultivate visual elegance"
       />
+
       <LazySimpleStartBg />
     </div>
   </div>
