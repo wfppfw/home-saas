@@ -22,3 +22,24 @@ a, button, .clickable {
 .cursor-pointer {
   cursor: url('/pointer.svg') pointer !important;
 }
+
+
+@font-face {
+  font-family: 'OpenSans'; /* 自定义字体名称 */
+  src:url('/fonts/OpenSans-Regular.woff2') format('woff2'), 
+  url('/fonts/OpenSans-Regular.woff') format('woff'); /* 路径和格式 */
+  font-display: swap;
+  /* font-weight: normal; 
+  font-style: normal;  */
+}
+
+@font-face {
+  font-family: 'YaHei'; /* 自定义字体名称 */
+  src: url('/fonts/YaHei.woff2') format('woff2'); /* 路径和格式 */
+  /* font-weight: normal; 
+  font-style: normal;  */
+}
+
+body {
+font-family: 'OpenSans', 'YaHei',sans-serif; /* 自定义字体 + 回退字体 */
+}

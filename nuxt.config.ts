@@ -24,6 +24,13 @@ export default defineNuxtConfig({
     head: {
       viewport: 'width=device-width,initial-scale=1',
       link: [
+        {
+          rel: 'preload',
+          href: '/fonts/OpenSans-Regular.woff2',
+          as: 'font',
+          type: 'font/woff2',
+          crossorigin: 'anonymous',
+        },
         { rel: 'icon', href: '/favicon.ico', sizes: 'any' },
         { rel: 'icon', type: 'image/svg+xml', href: '/moon.svg' },
         { rel: 'apple-touch-icon', href: '/moon.png' },

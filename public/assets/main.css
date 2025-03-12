@@ -1,0 +1,17 @@
+@font-face {
+    font-family: 'OpenSans'; /* 自定义字体名称 */
+    src: url('/fonts/OpenSans-Regular.ttf') format('truetype'); /* 路径和格式 */
+    font-weight: normal; /* 字重（如 normal/bold） */
+    font-style: normal; /* 字形（如 normal/italic） */
+  }
+
+  @font-face {
+    font-family: 'YaHei'; /* 自定义字体名称 */
+    src: url('/fonts/YaHei.ttf') format('truetype'); /* 路径和格式 */
+    font-weight: normal; /* 字重（如 normal/bold） */
+    font-style: normal; /* 字形（如 normal/italic） */
+  }
+
+  body {
+  font-family: 'OpenSans', 'YaHei',sans-serif; /* 自定义字体 + 回退字体 */
+}

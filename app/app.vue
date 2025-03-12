@@ -28,6 +28,13 @@ onMounted(() => {
   filter: blur(1rem);
 } */
 
+
+
+
+
+
+
+
 html,
 body,
 #__nuxt {
