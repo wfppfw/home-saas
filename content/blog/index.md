@@ -1,7 +1,7 @@
 ---
 title: 我的第一篇博客
-date: 2023-10-20
-description: 这是使用 Nuxt Content 的第一篇博客
+date: 2025-03-14T00:00:00.000Z
+description: 这是使用nuxt studio的第一篇博客
 ---
 
 # 欢迎使用 Nuxt Content
@@ -14,6 +14,6 @@ console.log('Hello Nuxt Content!')
 
 ---
 
-### 3. 查询内容
+### 这里是使用用nuxt3 的content模块搭建,测试一下。以后这里就是新家了。
 
-#### 获取全部内容
+####
