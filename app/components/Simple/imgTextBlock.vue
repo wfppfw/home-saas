@@ -41,7 +41,7 @@ defineProps({
       :class="textPosition === 'left' ? 'md:order-1' : 'md:order-2'"
     >
       <h2 class="text-center text-lg font-bold md:text-left md:text-xl">
-        The auspicious <span style="color:#4F46E5">kitty</span> confers heavenly grace upon thee.
+        The auspicious <span style="color:#4F46E5;">kitty</span> confers heavenly grace upon thee.
       </h2>
       <p class="mt-2 max-w-3xl text-center text-sm text-gray-600 md:text-left md:text-base">
         {{ description }}

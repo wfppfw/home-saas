@@ -17,7 +17,7 @@ defineProps({
       {{ title }}
     </h1>
     <p class="description">
-      {{ description }}
+      In addition to furry cats and the moon in the sky, I also like the following...
     </p>
   </div>
 </template>

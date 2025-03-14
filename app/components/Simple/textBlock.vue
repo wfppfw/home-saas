@@ -14,10 +14,10 @@ defineProps({
 <template>
   <div class="text-block">
     <h1 class="title">
-      Record the bits and pieces of <span style="color:#4F46E5">life</span>
+      Record the bits and pieces of <span style="color:#4F46E5;">life</span>
     </h1>
     <p class="description">
-      {{ description }}
+      I will occasionally update this space with articles and photos (when I'm not feeling lazy (￣▽￣*)ゞ).
     </p>
   </div>
 </template>

@@ -1,6 +1,6 @@
 ---
 title: 我的第一篇博客
-date: 2023-10-22T14:30:00+08:00
+date: 2023-10-22
 description: 这是使用 Nuxt Content 的第2篇博客
 ---
 

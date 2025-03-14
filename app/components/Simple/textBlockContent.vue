@@ -14,7 +14,7 @@ defineProps({
 <template>
   <div class="text-block">
     <h1 class="title">
-      <span class="blankBtn" title="Easter egg">Blank</span> of  end
+      <span class="blankBtn" title="Easter egg">Blank</span> at the end
 
       <div class="eggText">
         Press "

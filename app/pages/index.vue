@@ -4,6 +4,7 @@ import * as THREE from 'three'
 
 definePageMeta({
   layout: 'home',
+  scrollToTop: true, // 进入该页面时自动滚动到顶部
 })
 
 // 粒子动画配置
@@ -260,6 +261,7 @@ onBeforeUnmount(() => {
 
 <template>
   <div>
+    <RightMenu />
     <section class="hero-section">
       <!-- 动态背景容器 -->
       <div ref="canvasContainer" class="background-canvas" />

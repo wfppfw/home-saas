@@ -6,8 +6,8 @@ const props = defineProps({
   navigation: {
     type: Array,
     default: () => [
-      { name: 'Blog', router: '/doc', icon: 'simple-icons:readdotcv' },
-      { name: 'Tool', router: '/tool', icon: 'ph:telegram-logo-bold' },
+      { name: 'Blog', router: '/blog-index', icon: 'simple-icons:readdotcv' },
+      { name: 'Project', router: '/project', icon: 'ph:telegram-logo-bold' },
       { name: 'Toy', router: '/toy', icon: 'simple-icons:ghostery' },
     ],
   },
@@ -69,9 +69,9 @@ onBeforeUnmount(() => {
 <template>
   <header
     ref="headerRef"
-    class="supports-backdrop-blur:bg-white/95 fixed inset-x-0 top-0 z-[999] border-b border-gray-200/50 backdrop-blur transition-all duration-300 dark:border-gray-800/50 dark:bg-gray-900/75"
+    class="supports-backdrop-blur:bg-white/95 fixed inset-x-0 top-0 z-[999] border-b border-gray-200/50 backdrop-blur transition-all duration-300 dark:border-gray-800/50 dark:bg-[#222]/75"
     :class="{
-      'bg-white/80 dark:bg-gray-900/90 shadow-sm': hasScrolled,
+      'bg-white/80 dark:bg-[#222]/80 shadow-sm': hasScrolled,
       'border-b-transparent': !hasScrolled,
     }"
   >
@@ -92,7 +92,12 @@ onBeforeUnmount(() => {
               v-for="nav in navigation"
               :key="nav.name"
               :to="nav.router"
-              class="font-blod rounded-md px-3 py-2 text-4 text-gray-700 font-bold transition-colors hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-800"
+
+              :class="
+                $route.path === nav.router
+                  ? 'after:w-full after:left-0'
+                  : 'after:w-0 after:left-1/2'"
+              class="relative rounded-md px-3 py-2 pb-[6px] text-4 text-gray-700 font-bold transition-all duration-300 after:absolute after:bottom-0 after:h-[2px] after:bg-current dark:text-gray-300 after:transition-all after:duration-300 after:content-['']"
             >
               <!-- <Icon :name="nav.icon" /> -->
               {{ nav.name }}

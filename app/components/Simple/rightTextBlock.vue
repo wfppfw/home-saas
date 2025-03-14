@@ -41,7 +41,7 @@ defineProps({
       :class="textPosition === 'left' ? 'md:order-1' : 'md:order-2'"
     >
       <h2 class="text-center text-lg font-bold md:text-left md:text-xl">
-        Luminous whispers of <span style="color:#4F46E5">moonlight</span> brush tenderly across the veil of night.
+        A <span style="color:#4F46E5;">b</span>lack moon g<span style="color:#4F46E5;">l</span>e<span style="color:#4F46E5;">a</span>ms, lighting <span style="color:#4F46E5;">n</span>orthern s<span style="color:#4F46E5;">k</span>ies.
       </h2>
       <p class="mt-2 max-w-3xl text-center text-sm text-gray-600 md:text-left md:text-base">
         {{ description }}
