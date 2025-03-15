@@ -1,215 +1,173 @@
 <script setup>
-import { onClickOutside } from '@vueuse/core'
-import { computed, ref } from 'vue'
-
 definePageMeta({
   layout: 'home',
 })
 
-const { data: sections } = await useAsyncData('search-sections', () => {
-  return queryCollectionSearchSections('content')
-})
+// 响应式数据
+const selectedCategory = ref('全部')
+const searchKeyword = ref('')
 
-// 颜色配置
-const colorClasses = [
-  {
-    light: 'bg-rose-100 text-rose-700',
-    dark: 'dark:bg-rose-600/80 dark:text-rose-100',
-  },
-  {
-    light: 'bg-sky-100 text-sky-700',
-    dark: 'dark:bg-sky-600/80 dark:text-sky-100',
-  },
-  {
-    light: 'bg-emerald-100 text-emerald-700',
-    dark: 'dark:bg-emerald-600/80 dark:text-emerald-100',
-  },
-  {
-    light: 'bg-amber-100 text-amber-700',
-    dark: 'dark:bg-amber-600/80 dark:text-amber-100',
-  },
+// 原始项目数据
+const projects = ref([
+  { type: '工具', id: 1, title: '项目1', description: '这是一个示例项目描述文字，内容较长用于测试文字截断效果', stars: 123, forks: 45 },
+  { type: '页面', id: 2, title: '项目2', description: '另一个示例项目描述', stars: 89, forks: 23 },
+  { type: '工具', id: 3, title: '开发工具', description: '用于开发的实用工具集合', stars: 256, forks: 78 },
+  { type: '游戏', id: 4, title: '游戏引擎', description: '高性能游戏开发框架', stars: 345, forks: 123 },
+  { type: '小玩意', id: 5, title: '创意作品', description: '有趣的创意小项目展示', stars: 156, forks: 45 },
+  // 更多数据...
+])
+
+// 分类数据
+const categories = [
+  { title: '全部', icon: 'ph:selection-all-bold' },
+  { title: '工具', icon: 'ph:toolbox-bold' },
+  { title: '页面', icon: 'ph:package-bold' },
+  { title: '游戏', icon: 'ph:game-controller-bold' },
+  { title: '小玩意', icon: 'ph:acorn-bold' },
 ]
 
-// 示例数据
-const tags = ['技术', '生活', '旅行', '随笔', '前端', '设计', '阅读', '美食']
-const articles = Array.from({ length: 20 }, (_, i) => ({
-  id: i,
-  date: `2024-0${i % 9 + 1}-${i % 28 + 1}`,
-  title: `文章标题 ${i + 1} - 关于1现代前端开发的思考与实践`,
-}))
+// 筛选后的项目
+const filteredProjects = computed(() => {
+  return projects.value.filter((project) => {
+    // 分类筛选
+    const typeMatch = selectedCategory.value === '全部'
+      || project.type === selectedCategory.value
 
-// 搜索相关逻辑
-const searchQuery = ref('')
-const isSuggestionsOpen = ref(false)
-const activeIndex = ref(-1)
-const searchRef = ref(null)
-let searchTimeout = null
+    // 搜索筛选
+    const keyword = searchKeyword.value.toLowerCase()
+    const searchMatch = !searchKeyword.value
+      || project.title.toLowerCase().includes(keyword)
+      || project.description.toLowerCase().includes(keyword)
 
-// 防抖处理搜索
-function performSearch() {
-  clearTimeout(searchTimeout)
-  searchTimeout = setTimeout(() => {
-    isSuggestionsOpen.value = searchQuery.value.length > 0
-  }, 300)
-}
-
-// 过滤建议结果
-const suggestions = computed(() => {
-  const query = searchQuery.value.toLowerCase().trim()
-  if (!query)
-    return { tags: [], articles: [] }
-
-  return {
-    tags: tags.filter(tag => tag.toLowerCase().includes(query)),
-    articles: articles.filter(article =>
-      article.title.toLowerCase().includes(query),
-    ),
-  }
+    return typeMatch && searchMatch
+  })
 })
 
-// 键盘导航处理
-function handleKeydown(e) {
-  const totalItems = suggestions.value.tags.length + suggestions.value.articles.length
-  if (e.key === 'ArrowDown') {
-    e.preventDefault()
-    activeIndex.value = (activeIndex.value + 1) % totalItems
-  }
-  else if (e.key === 'ArrowUp') {
-    e.preventDefault()
-    activeIndex.value = (activeIndex.value - 1 + totalItems) % totalItems
-  }
-  else if (e.key === 'Enter' && activeIndex.value >= 0) {
-    navigateToItem(activeIndex.value)
-  }
-  else if (e.key === 'Escape') {
-    isSuggestionsOpen.value = false
-  }
+// 分类点击处理
+function selectType(title) {
+  selectedCategory.value = title
 }
 
-// 跳转逻辑
-function navigateToTag(tag) {
-  navigateTo(`/tags/${encodeURIComponent(tag)}`)
-}
+// 新增搜索框引用
+const searchInput = ref(null)
 
-function navigateToArticle(id) {
-  navigateTo(`/articles/${id}`)
-}
-
-function navigateToItem(index) {
-  const tagCount = suggestions.value.tags.length
-  if (index < tagCount) {
-    navigateToTag(suggestions.value.tags[index])
-  }
-  else {
-    const articleIndex = index - tagCount
-    navigateToArticle(suggestions.value.articles[articleIndex].id)
-  }
-  isSuggestionsOpen.value = false
-}
-
-// 点击外部关闭下拉
-onClickOutside(searchRef, () => {
-  isSuggestionsOpen.value = false
+// 在组件挂载后执行聚焦
+onMounted(() => {
+  // 添加延时确保DOM已渲染（针对移动端隐藏元素的情况）
+  setTimeout(() => {
+    searchInput.value?.focus()
+  }, 100)
 })
 </script>
 
 <template>
-  <div class="mx-auto max-w-[800px] p-8 px-4 dark:bg-gray-900">
-    <!-- 搜索区域 -->
-    <div ref="searchRef" class="mb-8">
-      <div class="relative mb-6 flex">
-        <input
-          v-model="searchQuery"
-          type="text"
-          placeholder="搜索文章..."
-          class="w-full border-2 border-gray-200 rounded-full py-4 pl-6 pr-12 text-base transition dark:border-gray-700 focus:border-blue-300 dark:bg-gray-800 dark:text-gray-200 focus:outline-none focus:ring-2 focus:ring-blue-100 dark:focus:border-blue-400 dark:focus:ring-blue-900/30"
-          @input="performSearch"
-          @focus="isSuggestionsOpen = true"
-          @keydown="handleKeydown"
-        >
-        <button class="absolute right-4 top-1/2 cursor-pointer border-none bg-transparent p-2 -translate-y-1/2">
-          <svg class="h-6 w-6 text-gray-500 dark:text-gray-400" viewBox="0 0 24 24">
-            <path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z" />
-          </svg>
-        </button>
-
-        <!-- 下拉建议 -->
-        <Transition name="suggestion">
-          <div
-            v-if="isSuggestionsOpen && (suggestions.tags.length > 0 || suggestions.articles.length > 0)"
-            class="absolute left-0 right-0 top-full z-50 mt-2 max-h-[400px] w-full overflow-auto border rounded-xl bg-white shadow-xl dark:border-gray-700 dark:bg-gray-800"
+  <div class="min-h-screen bg-white p-4 dark:bg-[#020618] md:p-6">
+    <!-- 主容器 -->
+    <div class="mx-auto mt-[-25px] max-w-7xl md:pl-52">
+      <!-- 左侧边栏 -->
+      <div class="md:fixed md:left-6 md:top-20 md:w-48">
+        <!-- 搜索框 -->
+        <div class="mb-4 border border-gray-200 rounded-lg bg-white p-3 md:mb-0 dark:border-gray-700 dark:bg-gray-800">
+          <input
+            ref="searchInput"
+            v-model="searchKeyword"
+            type="text"
+            placeholder="搜索..."
+            class="w-full border rounded-lg px-2 py-1.5 text-sm dark:border-gray-600 dark:bg-gray-700"
+            @keyup.enter="handleSearch"
           >
-            <!-- 标签建议 -->
-            <div v-if="suggestions.tags.length > 0">
-              <div class="p-2 text-sm text-gray-500 font-medium dark:text-gray-400">
-                匹配标签 ({{ suggestions.tags.length }})
-              </div>
-              <div
-                v-for="(tag, index) in suggestions.tags"
-                :key="tag"
-                class="flex cursor-pointer items-center px-4 py-3 transition hover:bg-gray-50 dark:hover:bg-gray-700/50"
-                :class="{ 'bg-blue-50 dark:bg-gray-700': index === activeIndex }"
-                @mousedown="navigateToTag(tag)"
-              >
-                <span class="text-sm">#{{ tag }}</span>
-              </div>
-            </div>
+        </div>
 
-            <!-- 文章建议 -->
-            <div v-if="suggestions.articles.length > 0">
-              <div class="p-2 text-sm text-gray-500 font-medium dark:text-gray-400">
-                匹配文章 ({{ suggestions.articles.length }})
+        <!-- 分类 -->
+        <div class="mt-3 hidden border border-gray-200 rounded-lg bg-white p-3 md:block dark:border-gray-700 dark:bg-gray-800">
+          <h3 class="mb-2 text-left text-base font-semibold dark:text-gray-200">
+            分类
+          </h3>
+          <ul class="space-y-3">
+            <li
+              v-for="cat in categories"
+              :key="cat.title"
+              class="cursor-my-pointer cursor-my-pointer h-full flex flex-col border border-gray-200 rounded-lg bg-white p-3 shadow-gray-100 shadow-sm transition-all dark:border-gray-700 dark:bg-gray-800 dark:shadow-gray-900/30 hover:shadow-gray-200 hover:shadow-md dark:hover:border-[#4F46E5] dark:hover:shadow-gray-900/50"
+              :class="{
+                'text-[#4F46E5] dark:text-[#818cf8]': selectedCategory === cat.title,
+                'hover:text-black dark:hover:text-white': selectedCategory !== cat.title,
+              }"
+              @click="selectType(cat.title)"
+            >
+              <div class="flex items-center gap-2 text-left text-sm">
+                <!-- 图标 -->
+                <div
+                  class="h-5 w-5 flex items-center justify-center transition-colors"
+                  :class="{
+                    'text-[#4F46E5] dark:text-[#818cf8]': selectedCategory === cat.title,
+                    'text-gray-500 group-hover:text-[#4F46E5] dark:text-gray-400 dark:group-hover:text-[#818cf8]': selectedCategory !== cat.title,
+                  }"
+                >
+                  <Icon :name="cat.icon" class="text-lg" />
+                </div>
+
+                <!-- 文字 -->
+                <span class="relative flex-1">
+                  {{ cat.title }}
+                  <!-- 选中下划线 -->
+                  <span
+                    v-if="selectedCategory === cat.title"
+                    class="absolute bottom-[-2px] left-[-25px] w-1/2 border-b-2 border-[#4F46E5] dark:border-[#818cf8]"
+                  />
+                </span>
               </div>
-              <div
-                v-for="(article, index) in suggestions.articles"
-                :key="article.id"
-                class="flex cursor-pointer items-center px-4 py-3 transition hover:bg-gray-50 dark:hover:bg-gray-700/50"
-                :class="{
-                  'bg-blue-50 dark:bg-gray-700':
-                    index + suggestions.tags.length === activeIndex,
-                }"
-                @mousedown="navigateToArticle(article.id)"
-              >
-                <span class="truncate text-sm">{{ article.title }}</span>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- 右侧展示区 -->
+      <div class="flex-1">
+        <div class="grid grid-cols-1 gap-3 lg:grid-cols-3 md:grid-cols-2">
+          <!-- 项目卡片 -->
+          <div
+            v-for="project in filteredProjects"
+            :key="project.id"
+            class="cursor-my-pointer h-full flex flex-col border border-gray-200 rounded-lg bg-white p-3 shadow-gray-100 shadow-sm transition-all dark:border-gray-700 hover:border-[#4F46E5] dark:bg-gray-800 dark:shadow-gray-900/30 hover:shadow-gray-200 hover:shadow-md dark:hover:border-[#4F46E5] dark:hover:shadow-gray-900/50"
+          >
+            <!-- 添加渐变装饰条 -->
+            <div class="from-primary/30 via-primary/20 absolute inset-x-0 top-0 h-1 to-transparent bg-gradient-to-r" />
+            <!-- 圆形图片 -->
+            <div class="mb-3 h-12 w-12 rounded-full bg-gray-200 dark:bg-gray-700" />
+
+            <!-- 内容区域 -->
+            <div class="flex flex-1 flex-col">
+              <!-- 标题 -->
+              <h3 class="mb-1.5 text-left text-base text-gray-800 font-semibold dark:text-gray-200">
+                {{ project.title }}
+              </h3>
+
+              <!-- 描述 -->
+              <p class="line-clamp-3 mb-3 flex-1 text-left text-xs text-gray-600 leading-relaxed dark:text-gray-400">
+                {{ project.description }}
+              </p>
+
+              <!-- 分割线 -->
+              <div class="relative mb-3 h-[1px]">
+                <hr class="absolute inset-0 border-gray-200 border-dashed dark:border-gray-600">
+              </div>
+
+              <!-- 底部信息 -->
+              <div class="h-5 flex items-center justify-between text-xs">
+                <div class="flex items-center gap-3 text-gray-500 dark:text-gray-400">
+                  <div class="flex items-center gap-1">
+                    <div class="i-heroicons-star-20-solid h-3.5 w-3.5" />
+                    <span>{{ project.stars }}</span>
+                  </div>
+                  <div class="flex items-center gap-1">
+                    <div class="i-heroicons-arrow-path-20-solid h-3.5 w-3.5" />
+                    <span>{{ project.forks }}</span>
+                  </div>
+                </div>
+                <div class="i-heroicons-arrow-right-circle-20-solid text-primary h-5 w-5" />
               </div>
             </div>
           </div>
-        </Transition>
-      </div>
-
-      <!-- 标签区域 -->
-      <div class="cursor-my-pointer flex flex-wrap gap-2">
-        <span
-          v-for="(tag, index) in tags"
-          :key="tag"
-          class="cursor-my-pointer rounded px-3 py-1 text-sm font-medium transition hover:brightness-95 dark:hover:brightness-125"
-          :class="[
-            colorClasses[index % 4].light,
-            colorClasses[index % 4].dark,
-          ]"
-        >
-          #{{ tag }}
-        </span>
-      </div>
-    </div>
-
-    <!-- 文章列表 -->
-    <div class="overflow-y-auto pr-2">
-      <div
-        v-for="article in articles"
-        :key="article.id"
-        class="group mb-3 border-b border-gray-100 p-5 transition dark:border-gray-800 hover:bg-gray-50 dark:hover:bg-gray-800/50"
-      >
-        <div class="flex flex-col items-start gap-2 md:flex-row md:items-center">
-          <span class="text-xs text-gray-400 md:min-w-[80px] md:text-sm dark:text-gray-500">
-            {{ article.date }}
-          </span>
-          <div class="mx-2 hidden h-1 w-1 rounded-full bg-gray-400 md:block dark:bg-gray-500" />
-          <h3
-            class="text-lg text-gray-600 font-medium transition dark:text-gray-400 group-hover:text-gray-800 dark:group-hover:text-gray-200"
-          >
-            {{ article.title }}
-          </h3>
         </div>
       </div>
     </div>
@@ -217,38 +175,6 @@ onClickOutside(searchRef, () => {
 </template>
 
 <style>
-/* 自定义滚动条 */
-::-webkit-scrollbar {
-  width: 6px;
-}
-::-webkit-scrollbar-track {
-  background: #f1f5f9;
-}
-.dark ::-webkit-scrollbar-track {
-  background: #1a202c;
-}
-::-webkit-scrollbar-thumb {
-  background: #cbd5e1;
-  border-radius: 4px;
-}
-.dark ::-webkit-scrollbar-thumb {
-  background: #4a5568;
-}
-::-webkit-scrollbar-thumb:hover {
-  background: #94a3b8;
-}
-.dark ::-webkit-scrollbar-thumb:hover {
-  background: #718096;
-}
-
-/* 过渡动画 */
-.suggestion-enter-active,
-.suggestion-leave-active {
-  transition: all 0.2s ease;
-}
-.suggestion-enter-from,
-.suggestion-leave-to {
-  opacity: 0;
-  transform: translateY(-10px);
-}
+/* 确保 UnoCSS 加载图标集 */
+@unocss;
 </style>

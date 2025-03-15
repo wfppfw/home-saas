@@ -28,13 +28,6 @@ onMounted(() => {
   filter: blur(1rem);
 } */
 
-
-
-
-
-
-
-
 html,
 body,
 #__nuxt {
@@ -45,7 +38,7 @@ body,
 }
 
 html.dark {
-  background: #222;
+  background: #020618;
   color: white;
 }
 

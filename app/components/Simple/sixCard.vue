@@ -57,7 +57,7 @@ function handleMouseMove(event: MouseEvent, index: number) {
     <div
       v-for="(card, index) in cards"
       :key="index"
-      class="relative border border-gray-200 rounded-lg bg-white p-4 transition-all duration-300 dark:border-gray-700 hover:border-gray-300 dark:bg-gray-800 dark:hover:border-gray-500"
+      class="relative border border-gray-200 rounded-lg bg-white p-4 transition-all duration-300 dark:border-gray-700 hover:border-[#4f46e5] dark:bg-gray-800 dark:hover:border-[#4f46e5]"
       @mousemove="handleMouseMove($event, index)"
       @mouseleave="currentHoverIndex = -1"
     >

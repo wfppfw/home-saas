@@ -48,3 +48,11 @@ font-family: 'OpenSans', 'YaHei',sans-serif; /* 自定义字体 + 回退字体 *
 .cursor-my-pointer{
   cursor: url('/pointer.svg'), pointer !important;
 }
+
+:root {
+
+  --underline-color: #4F46E5; /* primary color */
+  
+  
+  
+  }

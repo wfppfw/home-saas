@@ -19,10 +19,14 @@ const { data: sections } = await useAsyncData('search-sections', () => {
 //     .order('date', 'DESC')
 //     .all()
 // })
-
+// 新增搜索框引用
+const searchInput = ref(null)
 onMounted(() => {
-  // eslint-disable-next-line no-console
-  console.log(sections, posts)
+  // 添加延时确保DOM已渲染（针对移动端隐藏元素的情况）
+  setTimeout(() => {
+    searchInput.value?.focus()
+  }, 100)
+  // console.log(sections, posts)
 })
 
 // 颜色配置
@@ -138,6 +142,7 @@ onClickOutside(searchRef, () => {
     <div ref="searchRef" class="mb-8">
       <div class="relative mb-6 flex">
         <input
+          ref="searchInput"
           v-model="searchQuery"
           type="text"
           placeholder="搜索文章..."
@@ -177,7 +182,7 @@ onClickOutside(searchRef, () => {
             <!-- 文章建议 -->
             <div v-if="suggestions.articles.length > 0">
               <div class="p-2 text-sm text-gray-500 font-medium dark:text-gray-400">
-                匹配文章 ({{ suggestions.articles.length }})
+                匹配 ({{ suggestions.articles.length }})
               </div>
               <div
                 v-for="(article, index) in suggestions.articles"

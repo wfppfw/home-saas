@@ -121,12 +121,12 @@ function sendMessage() {
     <!-- 左侧侧边栏 -->
     <aside
       ref="sidebar"
-      class="h-full border-r border-[#222] bg-[#0a0a0a] transition-all duration-300"
+      class="h-full border-r border-[#020618] bg-[#0a0a0a] transition-all duration-300"
       :class="[isSidebarCollapsed ? 'w-16' : 'w-64', mobileView ? 'absolute z-30' : 'relative']"
     >
       <div class="h-full flex flex-col">
         <!-- 顶部区域 -->
-        <div class="border-b border-[#222] p-4">
+        <div class="border-b border-[#020618] p-4">
           <div v-if="!isSidebarCollapsed" class="flex items-center justify-between">
             <span class="text-white font-bold">DeepSeek</span>
             <Icon
@@ -163,7 +163,7 @@ function sendMessage() {
         </div>
 
         <!-- 底部个人信息 -->
-        <div class="border-t border-[#222] p-4">
+        <div class="border-t border-[#020618] p-4">
           <div class="flex items-center gap-2 text-gray-400">
             <Icon name="mdi:account-circle" class="shrink-0 text-xl" />
             <span v-if="!isSidebarCollapsed">个人信息</span>
@@ -182,7 +182,7 @@ function sendMessage() {
       />
 
       <!-- 顶部摘要栏 -->
-      <div class="sticky top-0 z-10 border-b border-[#222] bg-[#1a1a1a] p-4">
+      <div class="sticky top-0 z-10 border-b border-[#020618] bg-[#1a1a1a] p-4">
         <div class="text-sm text-gray-400">
           {{ currentSummary }}
         </div>
@@ -302,7 +302,7 @@ function sendMessage() {
           <!-- 有对话时的输入区域 -->
           <div
             v-if="chatMessages.length > 0"
-            class="border-t border-[#222] pt-2"
+            class="border-t border-[#020618] pt-2"
           >
             <div class="relative mx-auto max-w-4xl px-4">
               <div class="relative">

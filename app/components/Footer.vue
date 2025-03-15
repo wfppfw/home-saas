@@ -16,7 +16,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <footer class="mt-auto flex-shrink-0 border-t border-gray-200 bg-white dark:border-gray-800/50 dark:bg-gray-900/75">
+  <footer class="mt-auto flex-shrink-0 border-t border-gray-200 bg-white dark:border-gray-800/50 dark:bg-[#020618]/75">
     <div class="mx-auto max-w-7xl px-4 py-1 lg:px-8 sm:px-6">
       <!-- 主要容器改为响应式flex布局 -->
       <div class="flex flex-col items-center justify-between gap-y-4 lg:flex-row lg:gap-y-0">

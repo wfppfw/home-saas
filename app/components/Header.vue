@@ -8,7 +8,7 @@ const props = defineProps({
     default: () => [
       { name: 'Blog', router: '/blog-index', icon: 'simple-icons:readdotcv' },
       { name: 'Project', router: '/project', icon: 'ph:telegram-logo-bold' },
-      { name: 'Toy', router: '/toy', icon: 'simple-icons:ghostery' },
+      // { name: 'Toy', router: '/toy', icon: 'simple-icons:ghostery' },
     ],
   },
 })
@@ -69,9 +69,9 @@ onBeforeUnmount(() => {
 <template>
   <header
     ref="headerRef"
-    class="supports-backdrop-blur:bg-white/95 fixed inset-x-0 top-0 z-[999] border-b border-gray-200/50 backdrop-blur transition-all duration-300 dark:border-gray-800/50 dark:bg-[#222]/75"
+    class="supports-backdrop-blur:bg-white/95 fixed inset-x-0 top-0 z-[999] border-b border-gray-200/50 backdrop-blur transition-all duration-300 dark:border-gray-800/50 dark:bg-[#020618]/75"
     :class="{
-      'bg-white/80 dark:bg-[#222]/80 shadow-sm': hasScrolled,
+      'bg-white/80 dark:bg-[#020618]/80 shadow-sm': hasScrolled,
       'border-b-transparent': !hasScrolled,
     }"
   >
