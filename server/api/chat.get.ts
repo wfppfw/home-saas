@@ -1,7 +1,8 @@
 // server/api/users/[id].post.ts
 import { createError, defineEventHandler, readBody } from 'h3'
+import { deepChatOne } from '../ai/deepSeek/main'
 
-export default defineEventHandler(async () => {
+export default defineEventHandler(async (event) => {
   try {
     // // 获取路由参数
     // const { id } = event.context.params || {}
@@ -15,15 +16,15 @@ export default defineEventHandler(async () => {
     // }
 
     // 读取请求体
-    // const body = await readBody(event)
+    const body = await readBody(event)
 
     // // 验证必要参数
-    // if (!body.name || !body.age) {
-    //   throw createError({
-    //     statusCode: 400,
-    //     statusMessage: 'Missing required fields: name or age',
-    //   })
-    // }
+    if (!body.model || !body.messages) {
+      throw createError({
+        statusCode: 400,
+        statusMessage: 'Missing required fields: models or messages',
+      })
+    }
 
     // // 验证参数类型
     // if (typeof body.age !== 'number') {
@@ -33,17 +34,10 @@ export default defineEventHandler(async () => {
     //   })
     // }
 
+    const res = await deepChatOne(body.model, body.messages)
+
     // 返回结构化响应
-    return {
-      statusCode: 200,
-      message: 'success',
-      data: {
-        bodyParams: {
-          name: '211',
-          age: '31',
-        },
-      },
-    }
+    return res
   }
   catch (error) {
     console.warn(error)

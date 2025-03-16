@@ -7,12 +7,11 @@ const openai = new OpenAI({
   apiKey: 'sk-8b988851938845a081e64dc54469a25c', // test-moon
 })
 // deepseek-reasoner
-async function main() {
+export const deepChatOne = async function (model: string, messages: any) {
   const completion = await openai.chat.completions.create({
-    messages: [{ role: 'system', content: 'You are a helpful assistant.' }],
-    model: 'deepseek-chat',
+    messages,
+    model,
   })
   console.warn(completion.choices[0].message.content)
+  return completion
 }
-
-main()

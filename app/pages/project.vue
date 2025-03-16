@@ -168,6 +168,24 @@ onMounted(() => {
               </div>
             </div>
           </div>
+
+          <!-- 空白状态提示 -->
+          <div
+            v-if="filteredProjects.length === 0"
+            class="col-span-full py-12 text-center"
+          >
+            <div class="mx-auto max-w-xs">
+              <div class="mb-4 flex justify-center">
+                <div class="i-heroicons-document-magnifying-glass h-12 w-12 text-gray-400 dark:text-gray-500" />
+              </div>
+              <h3 class="text-lg text-gray-900 font-medium dark:text-gray-200">
+                没有找到项目
+              </h3>
+              <p class="mt-2 text-sm text-gray-500 dark:text-gray-400">
+                尝试调整搜索关键词或选择其他分类
+              </p>
+            </div>
+          </div>
         </div>
       </div>
     </div>

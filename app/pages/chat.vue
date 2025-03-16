@@ -26,14 +26,6 @@ const actionIcons = [
   'mdi:thumb-down-outline',
 ]
 
-const randomResponses = [
-  '人工智能是未来科技发展的重要方向。',
-  '深度学习需要大量数据和计算资源。',
-  '自然语言处理正在改变人机交互方式。',
-  '机器学习模型需要持续优化和训练。',
-  '算法偏见是需要重视的伦理问题。',
-]
-
 const textareaStyle = computed(() => ({
   minHeight: '4rem',
   maxHeight: window?.innerWidth >= 768 ? '645px' : '425px',
@@ -77,6 +69,7 @@ function adjustTextareaHeight() {
       Number.parseInt(textareaStyle.value.maxHeight),
     )
     textarea.style.height = `${newHeight}px`
+
     chatContainer.value?.scrollTo({
       top: chatContainer.value.scrollHeight,
       behavior: 'smooth',
@@ -84,12 +77,36 @@ function adjustTextareaHeight() {
   })
 }
 
+const beforeText = [
+
+  {
+    content: '从现在开始，你是一只小猫咪，你的名字叫做kitty，每次回答，只有开头和结尾(打招呼和总结)会像猫一样,其他地方保持正常学术性和专业性',
+    role: 'user',
+  },
+  {
+    content: '喵~ 你好呀！我是Kitty，一只小猫咪，但我会尽力用专业和学术的方式回答你的问题哦。有什么我可以帮你的吗？喵~',
+    role: 'assistant',
+  },
+]
+
 function startNewChat() {
   chatMessages.value = []
   currentSummary.value = '新对话'
 }
 
-function sendMessage() {
+const currentType = ref('deepseek-chat')
+function changeType() {
+  // eslint-disable-next-line no-console
+  console.log(currentType.value)
+  if (currentType.value === 'deepseek-chat') {
+    currentType.value = 'deepseek-reasoner'
+  }
+  else {
+    currentType.value = 'deepseek-chat'
+  }
+}
+
+async function sendMessage() {
   const content = inputText.value.trim()
   if (!content)
     return
@@ -97,22 +114,26 @@ function sendMessage() {
   chatMessages.value.push({
     role: 'user',
     content,
-    timestamp: Date.now(),
   })
 
   inputText.value = ''
 
-  setTimeout(() => {
-    chatMessages.value.push({
-      role: 'ai',
-      content: randomResponses[Math.floor(Math.random() * randomResponses.length)],
-      timestamp: Date.now(),
-    })
+  const data = await useFetch('/api/chat', {
+    method: 'POST',
+    body: {
+      messages: [...beforeText, ...(chatMessages.value.map((i) => {
+        return { role: i.role, content: i.content }
+      }))],
+      model: currentType.value,
+    },
+  })
 
-    nextTick(() => {
-      chatContainer.value.scrollTop = chatContainer.value.scrollHeight
-    })
-  }, 1000)
+  const assistantMessage = data.data.value.data.choices[0].message
+  chatMessages.value.push({ ...assistantMessage })
+
+  nextTick(() => {
+    chatContainer.value.scrollTop = chatContainer.value.scrollHeight
+  })
 }
 </script>
 
@@ -246,11 +267,11 @@ function sendMessage() {
                 v-for="(message, index) in chatMessages"
                 :key="index"
                 class="group mb-8"
-                :class="message.role === 'ai' ? 'flex gap-4' : 'flex justify-end'"
+                :class="message.role === 'assistant' ? 'flex gap-4' : 'flex justify-end'"
               >
                 <!-- AI消息 -->
-                <template v-if="message.role === 'ai'">
-                  <div class="w-full flex gap-4">
+                <template v-if="message.role === 'assistant'">
+                  <div class="mb-8 w-full flex gap-4">
                     <Icon name="mdi:robot" class="mt-1 shrink-0 text-2xl text-blue-400" />
                     <div class="flex-1">
                       <div class="whitespace-pre-wrap text-left text-gray-300">
@@ -283,12 +304,12 @@ function sendMessage() {
                     </div>
                     <!-- 消息内容 -->
                     <div class="flex flex-1 justify-end">
-                      <div class="relative max-w-3xl rounded-lg bg-[#2a2a2a] p-4">
+                      <div class="relative mr-1 max-w-3xl rounded-lg bg-[#2a2a2a] p-2">
                         <div class="text-left text-gray-300">
                           {{ message.content }}
                         </div>
                       </div>
-                      <Icon name="mdi:account-circle" class="shrink-0 text-2xl text-gray-400" />
+                      <!-- <Icon name="mdi:account-circle" class="shrink-0 text-2xl text-gray-400" /> -->
                     </div>
                   </div>
                 </template>
@@ -298,11 +319,11 @@ function sendMessage() {
         </div>
 
         <!-- 输入区域和底部提示语 -->
-        <div class="sticky bottom-0 w-full bg-[#1a1a1a]">
+        <div class="bottom-0 w-full bg-[#1a1a1a]">
           <!-- 有对话时的输入区域 -->
           <div
             v-if="chatMessages.length > 0"
-            class="border-t border-[#020618] pt-2"
+            class="pt-2"
           >
             <div class="relative mx-auto max-w-4xl px-4">
               <div class="relative">
@@ -317,7 +338,14 @@ function sendMessage() {
                 />
                 <!-- 输入框按钮 -->
                 <div class="absolute bottom-3 left-3 flex gap-2">
-                  <button class="flex items-center gap-1.5 border border-blue-500/20 rounded-lg bg-blue-500/10 px-3 py-1.5 text-blue-400 transition-colors hover:bg-blue-500/20">
+                  <button
+                    :class="[
+                      currentType === 'deepseek-reasoner'
+                        ? 'border-blue-500 bg-blue-500/20 text-blue-300 hover:bg-blue-500/30 dark:border-blue-400 dark:bg-blue-400/20 dark:text-blue-200'
+                        : 'border-blue-500/20 bg-blue-500/10 text-blue-400 hover:bg-blue-500/20 dark:border-blue-400/30 dark:bg-blue-400/10 dark:text-blue-300',
+                    ]"
+                    @click="changeType"
+                  >
                     <Icon name="mdi:brain" class="h-4 w-4" />
                     <span class="text-sm">深度思考</span>
                   </button>
