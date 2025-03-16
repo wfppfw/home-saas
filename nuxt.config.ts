@@ -99,6 +99,17 @@ export default defineNuxtConfig({
     },
 
   },
+  build: {
+    // transpile: [
+    //   'markdown-it',
+    //   'highlight.js/lib/core',
+    //   'highlight.js/lib/languages/javascript',
+    //   'highlight.js/lib/languages/typescript',
+    //   'highlight.js/lib/languages/python',
+    //   'highlight.js/lib/languages/bash',
+    //   'highlight.js/lib/languages/xml',
+    // ],
+  },
 
   future: {
     compatibilityVersion: 4,
@@ -123,6 +134,19 @@ export default defineNuxtConfig({
       crawlLinks: false,
       routes: ['/'],
       ignore: ['/hi'],
+    },
+  },
+  vite: {
+    optimizeDeps: {
+      include: [
+        'highlight.js',
+        'highlight.js/lib/core',
+        'highlight.js/lib/languages/javascript',
+        'highlight.js/lib/languages/typescript',
+        'highlight.js/lib/languages/python',
+        'highlight.js/lib/languages/bash',
+        'highlight.js/lib/languages/xml', // html 使用 xml 语言包
+      ],
     },
   },
 
