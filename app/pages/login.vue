@@ -219,6 +219,55 @@ const registerForm = ref({
   email: '',
   captcha: '',
 })
+const errors = reactive({
+  username: '',
+  password: '',
+  confirmPassword: '',
+})
+
+// 校验用户名
+function validateUsername() {
+  if (registerForm.value.username.length > 6) {
+    errors.username = '用户名不能超过6个字符'
+    return false
+  }
+  errors.username = ''
+  return true
+}
+
+// 校验密码
+function validatePassword() {
+  if (registerForm.value.password.length < 6) {
+    errors.password = '密码不能少于6位'
+    return false
+  }
+  errors.password = ''
+  return true
+}
+
+// 校验确认密码
+function validateConfirmPassword() {
+  if (registerForm.value.confirmPassword !== registerForm.value.password) {
+    errors.confirmPassword = '两次输入的密码不一致'
+    return false
+  }
+  errors.confirmPassword = ''
+  return true
+}
+
+// 提交时整体校验
+function handleRegister() {
+  const validUsername = validateUsername()
+  const validPassword = validatePassword()
+  const validConfirm = validateConfirmPassword()
+
+  if (validUsername && validPassword && validConfirm) {
+    // 执行注册逻辑
+    // eslint-disable-next-line no-console
+    console.log('校验通过，提交表单')
+  }
+}
+
 const isRegistering = ref(false)
 const registerCaptchaCooldown = ref(0)
 
@@ -324,17 +373,17 @@ async function handleLogin() {
   }
 }
 
-async function handleRegister() {
-  try {
-    isRegistering.value = true
-    // 添加注册逻辑
-    console.warn('注册表单提交:', registerForm.value)
-    await new Promise(resolve => setTimeout(resolve, 1000))
-  }
-  finally {
-    isRegistering.value = false
-  }
-}
+// async function handleRegister() {
+//   try {
+//     isRegistering.value = true
+//     // 添加注册逻辑
+//     console.warn('注册表单提交:', registerForm.value)
+//     await new Promise(resolve => setTimeout(resolve, 1000))
+//   }
+//   finally {
+//     isRegistering.value = false
+//   }
+// }
 
 // 第三方登录处理
 // function handleWechatLogin() {
@@ -466,58 +515,72 @@ function handleGithubLogin() {
               placeholder="用户昵称"
               required
               class="w-full border rounded-lg px-4 py-2.5 text-sm text-black outline-none focus:ring-1 focus:ring-blue-500"
+              @input="validateUsername"
+              @blur="validateUsername"
             >
 
             <!-- 注册密码输入框 -->
-            <div class="relative">
-              <input
-                v-model="registerForm.password"
-                :type="showRegisterPassword ? 'text' : 'password'"
-                placeholder="密码"
-                required
-                class="w-full border rounded-lg px-4 py-2.5 pr-10 text-sm text-black outline-none focus:ring-1 focus:ring-blue-500"
-                @focus="handlePasswordFocus('login')"
-                @blur="handlePasswordBlur('login')"
-              >
-              <button
-                type="button"
-                class="absolute right-3 top-1/2 rounded-full p-1.5 transition-colors -translate-y-1/2 hover:bg-gray-100"
-                @click="showRegisterPassword = !showRegisterPassword"
-              >
-                <div
-                  class="h-5 w-5 transition-opacity" :class="[
-                    showRegisterPassword
-                      ? 'i-ph-eye-slash-light text-gray-400'
-                      : 'i-ph-eye-light text-gray-400',
-                  ]"
-                />
-              </button>
+            <div>
+              <div class="relative">
+                <input
+                  v-model="registerForm.password"
+                  :type="showRegisterPassword ? 'text' : 'password'"
+                  placeholder="密码"
+                  required
+                  class="w-full border rounded-lg px-4 py-2.5 pr-10 text-sm text-black outline-none focus:ring-1 focus:ring-blue-500"
+                  @focus="handlePasswordFocus('login')"
+                  @blur="handlePasswordBlur('login')"
+                >
+                <button
+                  type="button"
+                  class="absolute right-3 top-1/2 rounded-full p-1.5 transition-colors -translate-y-1/2 hover:bg-gray-100"
+                  @click="showRegisterPassword = !showRegisterPassword"
+                >
+                  <div
+                    class="h-5 w-5 transition-opacity" :class="[
+                      showRegisterPassword
+                        ? 'i-ph-eye-slash-light text-gray-400'
+                        : 'i-ph-eye-light text-gray-400',
+                    ]"
+                  />
+                </button>
+              </div>
+              <div v-if="errors.password" class="mt-1 text-xs text-red-500">
+                {{ errors.password }}
+              </div>
             </div>
 
             <!-- 确认密码输入框 -->
-            <div class="relative">
-              <input
-                v-model="registerForm.confirmPassword"
-                :type="showConfirmPassword ? 'text' : 'password'"
-                placeholder="确认密码"
-                class="w-full border rounded-lg px-4 py-2.5 pr-10 text-sm text-black outline-none focus:ring-1 focus:ring-blue-500"
-                @focus="handlePasswordFocus('login')"
-                @blur="handlePasswordBlur('login')"
-              >
-              <button
-                type="button"
-                class="absolute right-3 top-1/2 rounded-full p-1.5 transition-colors -translate-y-1/2 hover:bg-gray-100"
-                @click="showConfirmPassword = !showConfirmPassword"
-              >
-                <div
-                  class="h-5 w-5 transition-opacity" :class="[
-                    showConfirmPassword
-                      ? 'i-ph-eye-slash-light text-gray-400'
-                      : 'i-ph-eye-light text-gray-400',
-                  ]"
-                />
-              </button>
+            <div>
+              <div class="relative">
+                <input
+                  v-model="registerForm.confirmPassword"
+                  :type="showConfirmPassword ? 'text' : 'password'"
+                  placeholder="确认密码"
+                  class="w-full border rounded-lg px-4 py-2.5 pr-10 text-sm text-black outline-none focus:ring-1 focus:ring-blue-500"
+                  @focus="handlePasswordFocus('login')"
+                  @blur="handlePasswordBlur('login')"
+                >
+                <button
+                  type="button"
+                  class="absolute right-3 top-1/2 rounded-full p-1.5 transition-colors -translate-y-1/2 hover:bg-gray-100"
+                  @click="showConfirmPassword = !showConfirmPassword"
+                >
+                  <div
+                    class="h-5 w-5 transition-opacity" :class="[
+                      showConfirmPassword
+                        ? 'i-ph-eye-slash-light text-gray-400'
+                        : 'i-ph-eye-light text-gray-400',
+                    ]"
+                  />
+                </button>
+              </div>
+
+              <div v-if="errors.confirmPassword" class="mt-1 text-xs text-red-500">
+                {{ errors.confirmPassword }}
+              </div>
             </div>
+
             <div class="flex gap-3">
               <input
                 v-model="registerForm.captcha"

@@ -309,7 +309,7 @@ onBeforeUnmount(() => {
 
         <!-- CTA 按钮组 -->
         <div class="cta-group">
-          <NuxtLink to="/projects" class="cta-button glow-effect">
+          <NuxtLink to="/project" class="cta-button glow-effect">
             <Icon name="ph:rocket-launch" class="icon" />
             View some project
           </NuxtLink>

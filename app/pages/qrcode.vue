@@ -3,6 +3,9 @@ import jsQR from 'jsqr'
 import QRCode from 'qrcode'
 import { computed, ref, watch } from 'vue'
 
+definePageMeta({
+  layout: 'home',
+})
 const qrText = ref('')
 const qrCodeData = ref('')
 const qrResult = ref('')
