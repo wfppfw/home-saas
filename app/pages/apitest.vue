@@ -12,7 +12,7 @@ interface Param {
   value: string
 }
 definePageMeta({
-  layout: 'home',
+  layout: 'project',
 })
 
 // 颜色模式管理

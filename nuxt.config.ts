@@ -125,6 +125,7 @@ export default defineNuxtConfig({
   compatibilityDate: '2024-08-14',
 
   nitro: {
+    // preset: 'service-worker', // 启用Service Worker缓存
     esbuild: {
       options: {
         target: 'esnext',
@@ -139,6 +140,7 @@ export default defineNuxtConfig({
   vite: {
     optimizeDeps: {
       include: [
+        '@webcontainer/api',
         'highlight.js',
         'highlight.js/lib/core',
         'highlight.js/lib/languages/javascript',

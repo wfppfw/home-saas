@@ -4,7 +4,7 @@ import QRCode from 'qrcode'
 import { computed, ref, watch } from 'vue'
 
 definePageMeta({
-  layout: 'home',
+  layout: 'project',
 })
 const qrText = ref('')
 const qrCodeData = ref('')

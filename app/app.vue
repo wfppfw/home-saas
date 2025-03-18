@@ -3,6 +3,16 @@ import '../assets/css/main.css'
 
 useHead({
   title: 'Code · Life | Moon\'s Mind Sanctuary',
+  meta: [
+    {
+      'http-equiv': 'Cross-Origin-Embedder-Policy',
+      'content': 'require-corp',
+    },
+    {
+      'http-equiv': 'Cross-Origin-Opener-Policy',
+      'content': 'same-origin',
+    },
+  ],
 })
 onMounted(() => {
   consoleText()
