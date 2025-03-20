@@ -1,0 +1,26 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <!-- 在浏览器中生成并下载文件 -->
+    <button onclick="generateFile()">生成 500KB 文件</button>
+
+    <script>
+      function generateFile() {
+        const fileSize = 1024000 // 1M
+        const content = 'A'.repeat(fileSize) // 生成重复字符
+        const blob = new Blob([content], { type: 'text/plain' })
+
+        const link = document.createElement('a')
+        link.href = URL.createObjectURL(blob)
+        link.download = 'test_1M.txt'
+        link.click()
+        URL.revokeObjectURL(link.href)
+      }
+    </script>
+  </body>
+</html>
