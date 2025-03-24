@@ -1,7 +1,34 @@
 <script setup lang="ts">
+import { debounce } from 'lodash-es'
+import { live2dStore } from '../../stores/live2dCat'
+
+const live2d = live2dStore()
 definePageMeta({
   layout: 'home',
 })
+const catName = ref('tororo')
+
+function handleCat() {
+  useLive2d(
+    debounce(() => {
+      live2d.isShow = !live2d.isShow
+    }, 200),
+    catName.value,
+    'live2d',
+  )
+}
+
+function dblHandleCat() {
+  catName.value = catName.value === 'hijiki' ? 'tororo' : 'hijiki'
+  useLive2d(
+    debounce(() => {
+      live2d.isShow = true
+      // live2d.isShow = !live2d.isShow
+    }, 300),
+    catName.value,
+    'live2d',
+  )
+}
 const route = useRoute()
 const post = await useAsyncData(() => queryCollection('content').path(route.path).first())
 
@@ -33,11 +60,11 @@ useSeoMeta({
     <!-- <div v-else>
       post not found1
     </div> -->
-
+    <Live2d />
     <div class="relative flex gap-8 text-left">
       <!-- 主内容区域 -->
       <div class="mx-auto max-w-[800px] flex-1 px-4 prose lg:px-0">
-        <ContentRenderer :value="post.data.value" />
+        <ContentRenderer :value="post.data.value as any" />
 
         <!-- 导航卡片容器 -->
         <div class="mt-16 flex flex-col gap-6 md:flex-row md:gap-8">
@@ -189,6 +216,19 @@ useSeoMeta({
       </div>
 
     <!-- 上下篇导航 -->
+    </div>
+
+    <!-- 固定定位的触发图标 -->
+    <div
+      class="cursor-my-pointer fixed bottom-50 right-4 z-[9999] z-50 h-20 w-20 rounded-full shadow-lg transition-transform duration-300 md:block hover:scale-110 border-none!"
+      @click="handleCat"
+      @dblclick="dblHandleCat"
+    >
+      <img
+        src="/image/right-bottom-cat.svg"
+        class="mr-20 mt-2 hidden h-16 w-16 md:block"
+        alt="Live2D 触发按钮"
+      >
     </div>
   </div>
 </template>
