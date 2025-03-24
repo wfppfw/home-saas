@@ -18,15 +18,22 @@ export default defineNuxtConfig({
   devtools: {
     enabled: true,
   },
-
   app: {
     pageTransition: { name: 'page', mode: 'out-in' },
     head: {
+
       viewport: 'width=device-width,initial-scale=1',
       link: [
         {
           rel: 'preload',
           href: '/fonts/OpenSans-Regular.woff2',
+          as: 'font',
+          type: 'font/woff2',
+          crossorigin: 'anonymous',
+        },
+        {
+          rel: 'preload',
+          href: '/fonts/FiraCode-Regular.woff2',
           as: 'font',
           type: 'font/woff2',
           crossorigin: 'anonymous',
@@ -100,6 +107,14 @@ export default defineNuxtConfig({
 
   },
   build: {
+    transpile: [
+      '@codemirror/theme-dracula',
+      'codemirror',
+      '@codemirror/state',
+      '@codemirror/view',
+      '@codemirror/language',
+      '@codemirror/commands',
+    ],
     // transpile: [
     //   'markdown-it',
     //   'highlight.js/lib/core',
@@ -109,6 +124,8 @@ export default defineNuxtConfig({
     //   'highlight.js/lib/languages/bash',
     //   'highlight.js/lib/languages/xml',
     // ],
+  },
+  devServer: {
   },
 
   future: {
@@ -138,8 +155,19 @@ export default defineNuxtConfig({
     },
   },
   vite: {
+    server: {
+      headers: {
+        'Cross-Origin-Embedder-Policy': 'require-corp',
+        'Cross-Origin-Opener-Policy': 'same-origin',
+      },
+    },
     optimizeDeps: {
+
       include: [
+        '@codemirror/lang-javascript',
+        '@codemirror/state',
+        '@codemirror/view',
+        '@codemirror/language',
         '@webcontainer/api',
         'highlight.js',
         'highlight.js/lib/core',
@@ -164,11 +192,44 @@ export default defineNuxtConfig({
   pwa,
 
   unocss: {
+    theme: {
+      colors: {
+        // 添加暗色模式支持
+        dark: {
+          primary: '#81A1C1',
+          background: '#2E3440',
+          surface: '#3B4252',
+        },
+      },
+    },
     safelist: [
-      // 添加可能使用的宽度值
-      'max-w-[500px]',
-      'max-w-[600px]',
-      'max-w-[700px]',
+      // 主题相关类
+      'cm-theme-dark',
+      'cm-theme-dracula',
+      // 自定义选择器
+      '[&_.cm-gutters]:bg-gray-50',
+      'dark:[&_.cm-gutters]:bg-gray-800',
+      // CodeMirror 核心类
+      'cm-editor',
+      'cm-gutters',
+      'cm-lineNumbers',
+      'cm-activeLine',
+
+      // 匹配所有 cm- 前缀类
+      'cm-*',
+
+      // 特殊字符类
+      '',
+      '',
+      // 语法标记类
+      'cm-keyword',
+      'cm-comment',
+      'cm-string',
+      'cm-number',
+
+      // 折叠图标
+      'codicon-chevron-down',
+      'codicon-chevron-right',
     ],
   },
 })
