@@ -14,7 +14,6 @@ export default defineNuxtConfig({
     '@nuxtjs/mdc',
     '@nuxtjs/color-mode',
   ],
-
   devtools: {
     enabled: true,
   },
@@ -105,6 +104,12 @@ export default defineNuxtConfig({
 
     },
 
+  },
+  runtimeConfig: {
+    // jwtSecret: process.env.JWT_SECRET,
+    // public: {
+    //   apiBase: '/api'
+    // }
   },
   build: {
     transpile: [

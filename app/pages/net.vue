@@ -227,142 +227,148 @@ onBeforeUnmount(stopTest)
 </script>
 
 <template>
-  <div class="card relative border border-gray-200 rounded-2xl bg-white p-6 shadow-xl dark:border-gray-700 dark:bg-gray-800">
-    <!-- 单位切换按钮 -->
-    <div class="absolute left-4 top-4 flex gap-2">
-      <button
-        v-for="unit in ['mbps', 'mb']"
-        :key="unit"
-        class="rounded-md px-3 py-1 text-sm transition-all"
-        :class="[
-          speedUnit === unit
-            ? 'bg-blue-500 text-white shadow-md'
-            : 'bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600',
-        ]"
-        @click="speedUnit = unit"
-      >
-        {{ unitLabels[unit] }}
-      </button>
-    </div>
+  <div>
+    <!-- ip查询  -->
+    <div />
 
-    <!-- 模式切换按钮组 -->
-    <div class="absolute right-4 top-4 flex gap-2">
-      <button
-        v-for="mode in testModes"
-        :key="mode"
-        class="rounded-lg p-2 transition-all"
-        :class="[
-          currentMode === mode
-            ? 'bg-blue-500 text-white shadow-md'
-            : 'bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600',
-        ]"
-        @click="currentMode = mode"
-      >
-        {{ modeLabels[mode] }}
-      </button>
-    </div>
+    <!-- 网速测试 -->
+    <div class="card relative border border-gray-200 rounded-2xl bg-white p-6 shadow-xl dark:border-gray-700 dark:bg-gray-800">
+      <!-- 单位切换按钮 -->
+      <div class="absolute left-4 top-4 flex gap-2">
+        <button
+          v-for="unit in ['mbps', 'mb']"
+          :key="unit"
+          class="rounded-md px-3 py-1 text-sm transition-all"
+          :class="[
+            speedUnit === unit
+              ? 'bg-blue-500 text-white shadow-md'
+              : 'bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600',
+          ]"
+          @click="speedUnit = unit"
+        >
+          {{ unitLabels[unit] }}
+        </button>
+      </div>
 
-    <!-- 量角器速度表盘 -->
-    <div class="relative mx-auto mb-6 h-48 w-64">
-      <svg class="gauge" viewBox="0 0 200 120">
-        <path
-          d="M20 100 A80 80 0 0 1 180 100"
-          fill="none"
-          stroke="currentColor"
-          stroke-width="12"
-          class="text-gray-200 dark:text-gray-700"
-        />
-        <path
-          :d="gaugePath"
-          fill="none"
-          stroke="currentColor"
-          stroke-width="12"
-          :class="speedColor"
-          stroke-linecap="round"
-        />
-        <g v-for="(tick, index) in ticks" :key="index" class="text-gray-500">
-          <line
-            :x1="tick.x1"
-            :y1="tick.y1"
-            :x2="tick.x2"
-            :y2="tick.y2"
+      <!-- 模式切换按钮组 -->
+      <div class="absolute right-4 top-4 flex gap-2">
+        <button
+          v-for="mode in testModes"
+          :key="mode"
+          class="rounded-lg p-2 transition-all"
+          :class="[
+            currentMode === mode
+              ? 'bg-blue-500 text-white shadow-md'
+              : 'bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600',
+          ]"
+          @click="currentMode = mode"
+        >
+          {{ modeLabels[mode] }}
+        </button>
+      </div>
+
+      <!-- 量角器速度表盘 -->
+      <div class="relative mx-auto mb-6 h-48 w-64">
+        <svg class="gauge" viewBox="0 0 200 120">
+          <path
+            d="M20 100 A80 80 0 0 1 180 100"
+            fill="none"
             stroke="currentColor"
-            stroke-width="2"
+            stroke-width="12"
+            class="text-gray-200 dark:text-gray-700"
           />
-          <text
-            :x="tick.textX"
-            :y="tick.textY"
-            text-anchor="middle"
-            class="text-[8px]"
-          >
-            {{ tick.label }}
-          </text>
-        </g>
-        <line
-          :x1="100"
-          :y1="100"
-          :x2="pointerX"
-          :y2="pointerY"
-          stroke="#ef4444"
-          stroke-width="2"
-          stroke-linecap="round"
-        />
-      </svg>
+          <path
+            :d="gaugePath"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="12"
+            :class="speedColor"
+            stroke-linecap="round"
+          />
+          <g v-for="(tick, index) in ticks" :key="index" class="text-gray-500">
+            <line
+              :x1="tick.x1"
+              :y1="tick.y1"
+              :x2="tick.x2"
+              :y2="tick.y2"
+              stroke="currentColor"
+              stroke-width="2"
+            />
+            <text
+              :x="tick.textX"
+              :y="tick.textY"
+              text-anchor="middle"
+              class="text-[8px]"
+            >
+              {{ tick.label }}
+            </text>
+          </g>
+          <line
+            :x1="100"
+            :y1="100"
+            :x2="pointerX"
+            :y2="pointerY"
+            stroke="#ef4444"
+            stroke-width="2"
+            stroke-linecap="round"
+          />
+        </svg>
 
-      <div class="absolute bottom-8 left-1/2 transform text-center -translate-x-1/2">
-        <div class="text-4xl font-bold font-mono" :class="speedColor">
-          {{ displayValue }}
-        </div>
-        <div class="mt-1 text-sm text-gray-500">
-          {{ currentUnitDisplay }} • {{ statusLabel }}
+        <div class="absolute bottom-8 left-1/2 transform text-center -translate-x-1/2">
+          <div class="text-4xl font-bold font-mono" :class="speedColor">
+            {{ displayValue }}
+          </div>
+          <div class="mt-1 text-sm text-gray-500">
+            {{ currentUnitDisplay }} • {{ statusLabel }}
+          </div>
         </div>
       </div>
-    </div>
 
-    <!-- 控制按钮 -->
-    <div class="flex justify-center gap-4">
-      <button
-        class="flex items-center gap-2 rounded-lg bg-green-500 px-6 py-3 text-white shadow-md transition-colors hover:bg-green-600"
-        @click="startTest"
-      >
-        <div class="i-mdi-play text-lg" />
-        <span>开始测试</span>
-      </button>
-      <button
-        class="flex items-center gap-2 rounded-lg bg-red-500 px-6 py-3 text-white shadow-md transition-colors hover:bg-red-600"
-        @click="stopTest"
-      >
-        <div class="i-mdi-stop text-lg" />
-        <span>停止测试</span>
-      </button>
-    </div>
+      <!-- 控制按钮 -->
+      <div class="flex justify-center gap-4">
+        <button
+          class="flex items-center gap-2 rounded-lg bg-green-500 px-6 py-3 text-white shadow-md transition-colors hover:bg-green-600"
+          @click="startTest"
+        >
+          <div class="i-mdi-play text-lg" />
+          <span>开始测试</span>
+        </button>
+        <button
+          class="flex items-center gap-2 rounded-lg bg-red-500 px-6 py-3 text-white shadow-md transition-colors hover:bg-red-600"
+          @click="stopTest"
+        >
+          <div class="i-mdi-stop text-lg" />
+          <span>停止测试</span>
+        </button>
+      </div>
 
-    <!-- 统计面板 -->
-    <div class="grid grid-cols-3 mt-6 gap-4 text-center">
-      <div class="rounded-lg bg-gray-100 p-4 dark:bg-gray-700">
-        <div class="text-sm text-gray-500">
-          延迟
+      <!-- 统计面板 -->
+      <div class="grid grid-cols-3 mt-6 gap-4 text-center">
+        <div class="rounded-lg bg-gray-100 p-4 dark:bg-gray-700">
+          <div class="text-sm text-gray-500">
+            延迟
+          </div>
+          <div class="text-2xl font-bold font-mono">
+            {{ formattedLatency }}<span class="ml-1 text-sm">ms</span>
+          </div>
         </div>
-        <div class="text-2xl font-bold font-mono">
-          {{ formattedLatency }}<span class="ml-1 text-sm">ms</span>
+        <div class="rounded-lg bg-gray-100 p-4 dark:bg-gray-700">
+          <div class="text-sm text-gray-500">
+            下载速度
+          </div>
+          <div class="text-2xl font-bold font-mono">
+            {{ formattedDownloadSpeed }}
+            <span class="ml-1 text-sm">{{ speedUnitDisplay }}</span>
+          </div>
         </div>
-      </div>
-      <div class="rounded-lg bg-gray-100 p-4 dark:bg-gray-700">
-        <div class="text-sm text-gray-500">
-          下载速度
-        </div>
-        <div class="text-2xl font-bold font-mono">
-          {{ formattedDownloadSpeed }}
-          <span class="ml-1 text-sm">{{ speedUnitDisplay }}</span>
-        </div>
-      </div>
-      <div class="rounded-lg bg-gray-100 p-4 dark:bg-gray-700">
-        <div class="text-sm text-gray-500">
-          上传速度
-        </div>
-        <div class="text-2xl font-bold font-mono">
-          {{ formattedUploadSpeed }}
-          <span class="ml-1 text-sm">{{ speedUnitDisplay }}</span>
+        <div class="rounded-lg bg-gray-100 p-4 dark:bg-gray-700">
+          <div class="text-sm text-gray-500">
+            上传速度
+          </div>
+          <div class="text-2xl font-bold font-mono">
+            {{ formattedUploadSpeed }}
+            <span class="ml-1 text-sm">{{ speedUnitDisplay }}</span>
+          </div>
         </div>
       </div>
     </div>
