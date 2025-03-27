@@ -12,6 +12,7 @@ import {
 
 export default defineConfig({
   shortcuts: [
+    ['cursor-pointer', 'cursor-my-pointer'],
     ['chat-container', 'p-6 space-y-4 bg-gray-50 dark:bg-gray-900 rounded-xl'],
     ['bubble-group', 'flex flex-col gap-4 items-start [&>.bubble-root]:hover:z-10'],
     ['btn', 'px-4 py-1 rounded inline-block bg-teal-600 text-white cursor-pointer hover:bg-teal-700 disabled:cursor-default disabled:bg-gray-600 disabled:opacity-50'],

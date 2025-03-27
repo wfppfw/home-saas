@@ -25,7 +25,7 @@ const props = defineProps({
   menus: {
     type: Array,
     default: () => [
-      { label: '个人资料', icon: 'ph:identification-badge-bold' },
+      { label: '个人资料', icon: 'ph:identification-badge-bold', url: '/profile' },
       { label: '账号设置', icon: 'simple-line-icons:settings' },
     ],
   },
@@ -66,6 +66,14 @@ function animateValues() {
   })
 }
 
+const router = useRouter()
+function backFn() {
+  router.go(-1) // -1 表示返回上一页
+}
+function navigateToProfile(path) {
+  navigateTo(path)
+}
+
 // 波纹效果
 function handleRipple(e) {
   const rect = e.currentTarget.getBoundingClientRect()
@@ -99,16 +107,16 @@ onMounted(() => {
         :class="{ 'is-hovered': isHovered }"
       >
         <!-- 插槽内容 -->
-        <div class="avatar-content">
+        <div class="avatar-content cursor-my-pointer" @click="navigateToProfile('/profile')">
           <slot />
         </div>
 
         <!-- 波纹效果 -->
-        <div
+        <!-- <div
           v-if="showRipple"
           class="ripple-effect"
           :style="rippleStyle"
-        />
+        /> -->
       </div>
 
       <!-- 悬浮卡片 -->
@@ -123,7 +131,7 @@ onMounted(() => {
             <!-- 默认卡片内容 -->
             <div class="default-card-content">
               <div class="statistics">
-                <div v-for="(stat, index) in stats" :key="stat.label" class="stat-item">
+                <div v-for="(stat, index) in stats" :key="stat.label" class="cursor-my-pointer stat-item">
                   <div class="value">
                     {{ animatedValues[index] }}
                   </div>
@@ -133,10 +141,10 @@ onMounted(() => {
                 </div>
               </div>
               <div class="menu-items">
-                <div v-for="item in menus" :key="item.label" class="menu-item">
+                <NuxtLink v-for="item in menus" :key="item.label" :to="item.url" class="cursor-my-pointer menu-item">
                   <Icon :name="item.icon" class="icon" />
                   <span>{{ item.label }}</span>
-                </div>
+                </NuxtLink>
               </div>
             </div>
           </slot>

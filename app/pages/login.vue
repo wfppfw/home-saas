@@ -659,12 +659,6 @@ function handleGithubLogin() {
       />
 
       <template #footer>
-        <!-- <button
-          class="rounded px-4 py-2 text-gray-700 hover:bg-gray-100"
-          @click="showModal = false"
-        >
-          取消
-        </button> -->
         <button
           class="rounded bg-blue-500 px-4 py-2 text-white hover:bg-blue-600"
           @click="handleConfirm"
