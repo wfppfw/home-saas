@@ -1,16 +1,21 @@
 <script setup lang="ts">
-const isDark = ref()
+const isDark = ref(true)
 
 onMounted(() => {
-  const root = document.documentElement
-  isDark.value = root.classList.contains('dark')
+  // const root = document.documentElement
+  // isDark.value = root.classList.contains('dark')
 })
 function toggleDark() {
   const root = document.documentElement
   isDark.value = root.classList.contains('dark')
-  root.classList.remove(isDark.value ? 'dark' : '-')
-  root.classList.add(isDark.value ? '-' : 'dark')
-  localStorage.setItem('theme', isDark.value ? 'dark' : 'light')
+
+  if (isDark.value) {
+    root.classList.remove('dark')
+  }
+  else {
+    root.classList.add('dark')
+  }
+  localStorage.setItem('theme', isDark.value ? 'light' : 'dark')
 }
 function toggleViewTransition(event: MouseEvent) {
   const x = event.clientX

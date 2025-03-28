@@ -4,23 +4,30 @@
 
 import { useDark, useToggle } from '@vueuse/core'
 
-const isDark = useDark()
-const toggleDark = useToggle(isDark)
+const isDark = ref(true)
 
-function changeMode() {
-  console.warn('w')
-  toggleDark()
-  if (isDark) {
-    localStorage.setItem('theme', 'dark')
+function toggleDark() {
+  const root = document.documentElement
+  isDark.value = root.classList.contains('dark')
+
+  if (isDark.value) {
+    root.classList.remove('dark')
   }
   else {
-    localStorage.setItem('theme', 'light')
+    root.classList.add('dark')
   }
+  localStorage.setItem('theme', isDark.value ? 'light' : 'dark')
+}
+
+function changeMode() {
+  toggleDark()
 }
 
 const menuRef = ref(null)
 const isVisible = ref(false)
 const position = reactive({ x: 0, y: 0 })
+
+const savedSelection = ref(null)
 
 // 菜单项配置
 const menuItems = [
@@ -28,9 +35,31 @@ const menuItems = [
     icon: '📋',
     label: '复制',
     action: () => {
-      const text = window.getSelection().toString()
-      navigator.clipboard.writeText(text)
+      let text = ''
+      // 优先使用保存的选区
+      if (savedSelection.value) {
+        const range = savedSelection.value.cloneRange()
+        text = range.toString()
+      }
+      // 备用方案：表单控件处理
+      else {
+        const activeEl = document.activeElement
+        if (activeEl?.tagName === 'INPUT' || activeEl?.tagName === 'TEXTAREA') {
+          text = activeEl.value.slice(
+            activeEl.selectionStart,
+            activeEl.selectionEnd,
+          )
+        }
+      }
+
+      if (text) {
+        navigator.clipboard.writeText(text)
+      }
+      else {
+        console.warn('没有选中的文本')
+      }
     },
+
   },
   {
     icon: '🔄',
@@ -47,11 +76,11 @@ const menuItems = [
     label: '前进',
     action: () => history.forward(),
   },
-  {
-    icon: '🌓',
-    label: '切换主题',
-    action: () => changeMode(),
-  },
+  // {
+  //   icon: '🌓',
+  //   label: '切换主题',
+  //   action: () => changeMode(),
+  // },
   // 推荐添加的实用功能：
 
   //   {
@@ -68,21 +97,28 @@ const menuItems = [
     label: '回到顶部',
     action: () => window.scrollTo({ top: 0, behavior: 'smooth' }),
   },
-  {
-    icon: '🔍',
-    label: '页面搜索',
-    action: () => {
-      if (typeof window.__NUXT__?.$search === 'function') {
-        window.__NUXT__.$search()
-      }
-    },
-  },
 
   {
-    icon: '📌',
-    label: '添加书签',
-    action: () => window.external.AddFavorite(location.href, document.title),
+    icon: '🛠️',
+    label: '检查 ( 请按F12 )',
+    action: () => {},
   },
+
+  // {
+  //   icon: '🔍',
+  //   label: '页面搜索',
+  //   action: () => {
+  //     if (typeof window.__NUXT__?.$search === 'function') {
+  //       window.__NUXT__.$search()
+  //     }
+  //   },
+  // },
+
+  // {
+  //   icon: '📌',
+  //   label: '添加书签',
+  //   action: () => window.external.AddFavorite(location.href, document.title),
+  // },
 ]
 
 // 新增视口尺寸跟踪
@@ -101,6 +137,12 @@ const menuPosition = computed(() => ({
 function showMenu(e) {
   e.preventDefault()
   isVisible.value = true
+
+  // 保存当前文本选区
+  const selection = window.getSelection()
+  if (selection.rangeCount > 0) {
+    savedSelection.value = selection.getRangeAt(0)
+  }
 
   nextTick(() => {
     // 获取视口尺寸
