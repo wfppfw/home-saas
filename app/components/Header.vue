@@ -12,7 +12,7 @@ const props = defineProps({
     ],
   },
 })
-
+const auth = useAuthStore()
 const hasScrolled = ref(false)
 const isMobileMenuOpen = ref(false)
 const headerRef = ref(null)
@@ -107,12 +107,12 @@ onBeforeUnmount(() => {
 
         <!-- 右侧操作区 -->
         <div class="flex items-center space-x-3">
-          <DarkMode class="mt-2" />
+          <DarkMode class="cursor-my-pointer mr-5 mt-2" />
 
-          <AvataarCard>
+          <AvataarCard v-if="auth.isLoggedIn()" class="hidden md:inline-flex">
             <img :style="{ width: '40px', height: '40px' }" src="/moon.svg">
           </AvataarCard>
-          <button class="hidden items-center border border-transparent rounded-md from-blue-500 to-purple-500 bg-gradient-to-r px-4 py-2 text-sm text-white font-medium transition-all md:inline-flex hover:from-blue-600 hover:to-purple-600">
+          <button v-else class="hidden items-center border border-transparent rounded-md from-blue-500 to-purple-500 bg-gradient-to-r px-4 py-2 text-sm text-white font-medium transition-all md:inline-flex hover:from-blue-600 hover:to-purple-600">
             <NuxtLink to="/login">
               Sigin Up
             </NuxtLink>

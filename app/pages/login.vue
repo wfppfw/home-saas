@@ -366,24 +366,53 @@ async function handleLogin() {
     isLoggingIn.value = true
     // 添加登录逻辑
     console.warn('登录表单提交:', loginForm.value)
-    await new Promise(resolve => setTimeout(resolve, 1000))
+    const authStore = useAuthStore()
+    const result = await authStore.login(loginForm.value.username, loginForm.value.password)
+    if (result.success) {
+      navigateTo('/')
+    }
+    else {
+      error.value = result.error?.data?.statusMessage || 'Login failed'
+    }
+  }
+  catch (err) {
+    // error.value = err.data?.statusMessage || '注册失败'
+    console.log(err)
   }
   finally {
     isLoggingIn.value = false
   }
 }
 
-// async function handleRegister() {
-//   try {
-//     isRegistering.value = true
-//     // 添加注册逻辑
-//     console.warn('注册表单提交:', registerForm.value)
-//     await new Promise(resolve => setTimeout(resolve, 1000))
-//   }
-//   finally {
-//     isRegistering.value = false
-//   }
-// }
+async function registerFn() {
+  try {
+    isRegistering.value = true
+    const { data, error: apiError } = await useFetch('/api/auth/register', {
+      method: 'POST',
+      body: {
+        username: registerForm.value.username,
+        password: registerForm.value.password,
+      },
+    })
+
+    if (apiError.value)
+      throw apiError.value
+
+    // 注册成功后自动登录
+    const authStore = useAuthStore()
+    authStore.token = data.value.token
+    authStore.user = data.value.user
+    authStore.isAuthenticated = true
+
+    navigateTo('/')
+  }
+  catch (err) {
+    error.value = err.data?.statusMessage || '注册失败'
+  }
+  finally {
+    isRegistering.value = false
+  }
+}
 
 // 第三方登录处理
 // function handleWechatLogin() {
@@ -602,6 +631,7 @@ function handleGithubLogin() {
               type="submit"
               :disabled="isRegistering"
               class="w-full rounded-lg bg-blue-600 py-2.5 text-sm text-white font-medium transition-colors hover:bg-blue-700 disabled:opacity-75"
+              @click="registerFn"
             >
               <span v-if="isRegistering">注册中...</span>
               <span v-else>立即注册</span>

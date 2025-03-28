@@ -1,34 +1,78 @@
-// ~/server/api/auth/register.post.ts
-import bcrypt from 'bcryptjs'
+import { createError, defineEventHandler, readBody } from 'h3'
+import { UserService } from '../../services/user.service'
+
+// /api/auth/register
+// {
+//   "username": "testuser",
+//   "password": "Test1234"
+// }
 
 export default defineEventHandler(async (event) => {
-  const { email, password, username } = await readBody(event)
-  
-  // 1. 检查用户是否存在
-  const existingUser = await prisma.user.findUnique({
-    where: { email }
-  })
+  const body = await readBody(event)
 
-  if (existingUser) {
+  // 输入验证
+  if (!body.username || !body.password) {
     throw createError({
       statusCode: 400,
-      message: '该邮箱已注册'
+      statusMessage: '用户名和密码不能为空',
     })
   }
 
-  // 2. 加密密码
-  const hashedPassword = bcrypt.hashSync(password, 10)
+  // 用户名长度验证
+  if (body.username.length < 2 || body.username.length > 7) {
+    throw createError({
+      statusCode: 400,
+      data: { // 使用data.message替代statusMessage
+        message: '用户名长度要求2~7',
+        code: 'INVALID_PASSWORD_LENGTH',
+      },
+    })
+  }
 
-  // 3. 创建用户
-  const user = await prisma.user.create({
-    data: {
-      email,
-      username,
-      password: hashedPassword
+  // 密码强度验证
+  if (body.password.length < 8) {
+    throw createError({
+      statusCode: 400,
+      data: { // 使用data.message替代statusMessage
+        message: '密码至少需要8个字符',
+        code: 'INVALID_PASSWORD_LENGTH',
+      },
+    })
+  }
+
+  try {
+    // 检查用户是否存在
+    console.log('0sss')
+    const existingUser = UserService.findUserByUsername(body.username)
+    console.log(existingUser)
+    if (existingUser) {
+      throw createError({
+        statusCode: 409,
+        data: { // 使用data.message替代statusMessage
+          message: '用户名已被注册',
+          code: 'User had register',
+        },
+      })
     }
-  })
 
-  // 4. 返回结果（排除密码）
-  const { password: _, ...result } = user
-  return result
+    // 创建用户
+    const newUser = await UserService.createUser(body.username, body.password)
+
+    return {
+      status: 201,
+      message: '注册成功',
+      data: {
+        id: newUser.id,
+        username: newUser.username,
+        role: newUser.role,
+        createdAt: newUser.created_at,
+      },
+    }
+  }
+  catch (error: any) {
+    throw createError({
+      statusCode: error.statusCode || 500,
+      statusMessage: error.statusMessage || '注册失败',
+    })
+  }
 })

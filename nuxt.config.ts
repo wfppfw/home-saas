@@ -1,3 +1,4 @@
+/* eslint-disable node/prefer-global/process */
 import { pwa } from './app/config/pwa'
 import { appDescription } from './app/constants/index'
 
@@ -106,7 +107,7 @@ export default defineNuxtConfig({
 
   },
   runtimeConfig: {
-    // jwtSecret: process.env.JWT_SECRET,
+    jwtSecret: process.env.JWT_SECRET,
     // public: {
     //   apiBase: '/api'
     // }

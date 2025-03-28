@@ -21,15 +21,23 @@ const props = defineProps({
       { label: '访问', value: 1200 },
     ],
   },
-  // 菜单项
-  menus: {
-    type: Array,
-    default: () => [
-      { label: '个人资料', icon: 'ph:identification-badge-bold', url: '/profile' },
-      { label: '账号设置', icon: 'simple-line-icons:settings' },
-    ],
-  },
 })
+
+const auth = useAuthStore()
+const router = useRouter()
+function navigateToProfile(path) {
+  navigateTo(path)
+}
+
+const menus = ref([
+  { fn: () => {
+    navigateToProfile('/profile')
+  }, label: '个人资料', icon: 'ph:identification-badge-bold', url: '/profile' },
+  { fn: () => {}, label: '账号设置', icon: 'simple-line-icons:settings' },
+  { fn: () => {
+    auth.logout()
+  }, label: '退出登录', icon: 'ph:arrow-square-right-bold' },
+])
 
 // 响应式状态
 const isHovered = ref(false)
@@ -66,14 +74,6 @@ function animateValues() {
   })
 }
 
-const router = useRouter()
-function backFn() {
-  router.go(-1) // -1 表示返回上一页
-}
-function navigateToProfile(path) {
-  navigateTo(path)
-}
-
 // 波纹效果
 function handleRipple(e) {
   const rect = e.currentTarget.getBoundingClientRect()
@@ -94,7 +94,7 @@ onMounted(() => {
 
 <template>
   <!-- 组件结构 -->
-  <div ref="wrapper" class="avatar-card-wrapper relative inline-block">
+  <div ref="wrapper" class="avatar-card-wrapper relative mr-10 inline-block">
     <div
       class="trigger-container"
       @mouseenter="isHovered = true"
@@ -141,10 +141,10 @@ onMounted(() => {
                 </div>
               </div>
               <div class="menu-items">
-                <NuxtLink v-for="item in menus" :key="item.label" :to="item.url" class="cursor-my-pointer menu-item">
+                <div v-for="item in menus" :key="item.label" class="cursor-my-pointer menu-item" @click="item.fn">
                   <Icon :name="item.icon" class="icon" />
                   <span>{{ item.label }}</span>
-                </NuxtLink>
+                </div>
               </div>
             </div>
           </slot>

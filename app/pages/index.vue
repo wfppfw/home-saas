@@ -359,7 +359,7 @@ onBeforeUnmount(() => {
     <div class="mx-5 mt-20 md:mx-20">
       <LazySimpleTextBlockTemp
         title="What's new lately"
-        description="Maybe they’ve posted a new blog entry, or maybe they’ve shared some fun new photos."
+        description="Sometimes I share new photos, sometimes I flip through old photos from the past."
       />
     </div>
 
