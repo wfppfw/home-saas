@@ -76,7 +76,7 @@ async function generateImage() {
     //   prompt: prompt.value,
       width: width.value,
       height: height.value,
-      steps: steps.value,
+      //   steps: steps.value,
       model: model.value,
       nologo: nologo.value ? 'true' : 'false',
       private: privateMode.value ? 'true' : 'false',
