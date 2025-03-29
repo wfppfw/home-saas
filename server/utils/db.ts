@@ -1,5 +1,5 @@
 /* eslint-disable node/prefer-global/process */
-/* eslint-disable no-console */
+
 import fs from 'node:fs'
 import path from 'node:path'
 import Database from 'better-sqlite3'
@@ -18,7 +18,7 @@ if (!fs.existsSync(dbDir)) {
 
 // 初始化数据库连接
 const db = new Database(dbPath, {
-  verbose: console.log, // 可选：查看SQL执行日志
+  // verbose: console.log, // 可选：查看SQL执行日志
 })
 
 // 创建用户表

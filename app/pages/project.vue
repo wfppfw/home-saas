@@ -16,22 +16,27 @@ const projects = ref([
   // { type: '小玩意', id: 5, title: '创意作品', description: '有趣的创意小项目展示', stars: 156, forks: 45 },
 
   { path: '/qrcode', isIcon: true, src: 'ph:qr-code-bold', type: '工具', id: 5, title: 'QrCode', description: '二维码的生成和解析', stars: 156, forks: 45 },
-  { path: '/apitest', isIcon: true, src: '', type: '工具', id: 6, title: 'ApiTest', description: 'api接口请求测试', stars: 156, forks: 45 },
-  { path: '/ocr', isIcon: true, src: '', type: '工具', id: 7, title: 'OCR', description: '图片文字识别', stars: 156, forks: 45 },
-  { path: '/colorPane', isIcon: true, src: '', type: '工具', id: 8, title: '颜色板', description: '颜色代码转换，配色推荐，颜色提取识别', stars: 156, forks: 45 },
+  { path: '/apitest', isIcon: false, src: '/image/api.svg', type: '工具', id: 6, title: 'ApiTest', description: 'api接口请求测试', stars: 156, forks: 45 },
+  { path: '/ocr', isIcon: false, src: '/image/OCR.svg', type: '工具', id: 7, title: 'OCR', description: '图片文字识别', stars: 156, forks: 45 },
+  { path: '/colorPane', isIcon: true, src: 'unjs:theme-colors', type: '工具', id: 8, title: '颜色板', description: '颜色代码转换，配色推荐，颜色提取识别', stars: 156, forks: 45 },
   { path: '/net', isIcon: true, src: 'ph:wifi-high-bold', type: '工具', id: 9, title: '网络测速', description: 'ip查询，网络测速，手机号归属地查询', stars: 156, forks: 45 },
-  { path: '/calculator', isIcon: true, src: 'ph:calculator', type: '工具', id: 10, title: '计算器', description: '一个的简单计算器', stars: 156, forks: 45 },
-  { path: '/image', isIcon: true, src: '', type: '工具', id: 11, title: '图片工具', description: '图片格式转换，尺寸修改，文件压缩大小', stars: 156, forks: 45 },
-  { path: 'radix', isIcon: true, src: '', type: '工具', id: 12, title: '进制转换和单位换算', description: '二进制，八进制 十进制，十六进制转换', stars: 156, forks: 45 },
-  { path: '', isIcon: true, src: '', type: '工具', id: 13, title: 'MarkDown编辑器', description: '在线编辑，生成导出，导入显示，导出markdown文件', stars: 156, forks: 45 },
-  { path: '', isIcon: true, src: '', type: '工具', id: 14, title: 'CodeRun', description: '在线代码运行器(运行暂时只支持JS,TS)', stars: 156, forks: 45 },
-  { path: '', isIcon: true, src: '', type: '工具', id: 15, title: '短链接生成', description: '将长链接转短链接', stars: 156, forks: 45 },
+  { path: '/calculator', isIcon: false, src: '/image/calu.svg', type: '工具', id: 10, title: '计算器', description: '一个的简单计算器', stars: 156, forks: 45 },
+  { path: '/image', isIcon: false, src: '/image/picture.svg', type: '工具', id: 11, title: '图片工具', description: '图片格式转换，尺寸修改，文件压缩大小', stars: 156, forks: 45 },
+  { path: '/radix', isIcon: false, src: '/image/radix.svg', type: '工具', id: 12, title: '进制转换和单位换算', description: '二进制，八进制 十进制，十六进制转换', stars: 156, forks: 45 },
+  { path: '/markdown-pane', isIcon: false, src: '/image/markdown.svg', type: '工具', id: 13, title: 'MarkDown编辑器', description: '在线编辑，生成导出，导入显示，导出markdown文件', stars: 156, forks: 45 },
+  { path: '/runCode', isIcon: false, src: '/image/Code1.svg', type: '工具', id: 14, title: 'CodeRun', description: '在线代码运行器(运行暂时只支持JS,TS)', stars: 156, forks: 45 },
+  { path: '/short-link', isIcon: false, src: '', type: '工具', id: 15, title: '短链接生成', description: '将长链接转短链接', stars: 156, forks: 45 },
+  { path: '/translate', isIcon: false, src: '', type: '工具', id: 15, title: 'Deelx翻译', description: '将长链接转短链接', stars: 156, forks: 45 },
 
-  { path: '', isIcon: true, src: '', type: '页面', id: 16, title: '临时储存', description: '限时销毁，密码提取，无需登录，只支持小文件', stars: 156, forks: 45 },
-  { path: '/chat-room', isIcon: true, src: '', type: '页面', id: 17, title: '多人聊天室', description: '多人在线聊天或开房间聊天', stars: 156, forks: 45 },
+  { path: '/save', isIcon: false, src: '/image/save.svg', type: '页面', id: 16, title: '临时储存', description: '限时销毁，密码提取，无需登录，只支持小文件', stars: 156, forks: 45 },
+  { path: '/chat-room', isIcon: false, src: '/image/chat-room.svg', type: '页面', id: 17, title: '多人聊天室', description: '多人在线聊天或开房间聊天', stars: 156, forks: 45 },
 
-  { path: '/tic-tac-toe', isIcon: true, src: '', type: '游戏', id: 18, title: '井字棋', description: '', stars: 156, forks: 45 },
-  { path: '/rock-paper-scissors', isIcon: true, src: '', type: '游戏', id: 19, title: '剪刀石头布', description: '', stars: 156, forks: 45 },
+  { path: '/chat', isIcon: false, src: '/image/cat1.svg', type: '页面', id: 17, title: 'AI-Kitty', description: '一只AI小猫', stars: 156, forks: 45 },
+  { path: '/music', isIcon: false, src: '/image/music.svg', type: '页面', id: 17, title: '音乐播放器', description: '音乐播放器', stars: 156, forks: 45 },
+  { path: '/vedio', isIcon: false, src: '/image/vedio.svg', type: '页面', id: 17, title: '视频播放器', description: '视频播放器', stars: 156, forks: 45 },
+
+  { path: '/tic-tac-toe', isIcon: false, src: '/image/jingzhiqi.svg', type: '游戏', id: 18, title: '井字棋', description: '', stars: 156, forks: 45 },
+  { path: '/rock-paper-scissors', isIcon: false, src: '/image/quantou.svg', type: '游戏', id: 19, title: '剪刀石头布', description: '', stars: 156, forks: 45 },
 
   // 更多数据...
 ])
@@ -157,9 +162,9 @@ onMounted(() => {
             <!-- 添加渐变装饰条 -->
             <div class="from-primary/30 via-primary/20 absolute inset-x-0 top-0 h-1 to-transparent bg-gradient-to-r" />
             <!-- 圆形图片 -->
-            <div class="mb-3 h-12 w-12 rounded-full bg-gray-200 dark:bg-gray-700">
-              <img v-if="project.isIcon" :src="project.src">
-              <Icon v-else :name="project.src" />
+            <div class="flex">
+              <img v-if="!project.isIcon" class="mb-3 h-12 w-12" :src="project.src">
+              <Icon v-else class="mb-3 h-12 w-12" :name="project.src" />
             </div>
 
             <!-- 内容区域 -->

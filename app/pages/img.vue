@@ -5,13 +5,10 @@ const tabs = [
   { id: 'imgFormat', label: '图片尺寸' },
   { id: 'settings', label: '系统设置', badge: '3' },
 ]
-definePageMeta({
-  layout: 'home',
-})
 </script>
 
 <template>
-  <div class="mx-auto max-w-6xl p-6">
+  <div class="mx-auto max-w-3xl p-6">
     <ImageTools />
   </div>
 </template>
