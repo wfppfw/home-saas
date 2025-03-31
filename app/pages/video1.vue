@@ -115,11 +115,11 @@ onBeforeUnmount(() => {
       开始沉浸式播放
     </button>
 
-    <!-- 伪全屏容器 -->
+    <!-- 伪全屏容器   @mousemove="showCustomControls = true" -->
     <div
       v-show="isTheaterMode"
       class="theater-container"
-      @mousemove="showCustomControls = true"
+
       @mouseleave="startControlsTimer"
     >
       <!-- 视频元素 -->

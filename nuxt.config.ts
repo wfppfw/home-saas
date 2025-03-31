@@ -159,6 +159,9 @@ export default defineNuxtConfig({
       routes: ['/'],
       ignore: ['/hi'],
     },
+    experimental: {
+      websocket: true,
+    },
   },
   vite: {
     server: {
