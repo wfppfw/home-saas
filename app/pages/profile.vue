@@ -5,6 +5,43 @@ definePageMeta({
   layout: 'clean',
 })
 
+const auth = useAuthStore()
+
+const userData = ref(null)
+// 用户数据
+const user = ref({
+  // avatar: 'https://avatars.githubusercontent.com/u/20296635?v=4',
+  avatar: 'https://avatars.githubusercontent.com/u/20296635?v=4',
+  nickname: '',
+  email: '',
+  github: '',
+  githubDisplay: 'github.com/example',
+})
+
+async function loadUserData() {
+  try {
+    // 从 auth store 获取最新数据
+    const freshData = auth.getUserInfo()
+
+    // 更新响应式数据
+    userData.value = freshData
+    user.value = {
+      avatar: JSON.parse(freshData?.info).avatar || user.value.avatar,
+      nickname: freshData?.username || '',
+      email: freshData?.email || '',
+      github: freshData?.githubUrl || '',
+      githubDisplay: freshData?.githubDisplay || 'github.com/example',
+    }
+
+    // 如果需要实时性高的数据，可以在这里添加 API 请求
+    // const { data } = await useFetch('/api/userinfo')
+    // auth.updateUser(data.value)
+  }
+  catch (error) {
+    console.error('加载用户数据失败:', error)
+  }
+}
+
 const tabs = [
   { id: 'profile', label: '个人信息', icon: 'user' },
   { id: 'account', label: '账号设置', icon: 'settings' },
@@ -18,18 +55,52 @@ const showModal = ref(false)
 function openModal() {
   showModal.value = true
 }
-function handleConfirm() {
+async function handleConfirm() {
   // 处理确认逻辑
   showModal.value = false
+  // 确定修改头像
+  try {
+    const { data, error: apiError } = await useFetch('/api/updateUser', {
+      method: 'POST',
+      body: {
+        id: JSON.parse(localStorage.getItem('moon_user'))?.id,
+        info: { avatar: user.value.avatar },
+        username: JSON.parse(localStorage.getItem('moon_user'))?.username,
+      },
+    })
+
+    if (apiError.value)
+      throw apiError.value
+    if (data.value.statusCode === 200) {
+      // 安全获取并合并数据的函数
+      function updateMoonUser(partialData) {
+        try {
+          // 1. 安全获取旧数据（处理空值）
+          const oldData = JSON.parse(
+            localStorage.getItem('moon_user') || '{}', // 空值处理
+          ) || {} // 双重保障
+
+          // 2. 合并数据（新数据覆盖旧数据）
+          const newData = { ...oldData, ...partialData }
+
+          // 3. 安全存储
+          localStorage.setItem('moon_user', JSON.stringify(newData))
+
+          return true
+        }
+        catch (error) {
+          console.error('更新moon_user失败:', error)
+          return false
+        }
+      }
+      updateMoonUser(data.value.user)
+      await loadUserData()
+    }
+  }
+  catch (err) {
+    console.log(err)
+  }
 }
-// 用户数据
-const user = ref({
-  avatar: 'https://avatars.githubusercontent.com/u/20296635?v=4',
-  nickname: '开发者小明',
-  email: 'developer@example.com',
-  github: 'https://github.com/example',
-  githubDisplay: 'github.com/example',
-})
 
 // 编辑状态
 const isEditingName = ref(false)
@@ -156,6 +227,11 @@ function deleteAccount() {
   console.log('执行删除账号操作')
   showDeleteConfirm.value = false
 }
+
+onMounted(async () => {
+  // userData = auth.getUserInfo()
+  await loadUserData()
+})
 </script>
 
 <template>

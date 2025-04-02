@@ -13,6 +13,8 @@ const props = defineProps({
   },
 })
 const auth = useAuthStore()
+const userInfo = computed(() => auth.userInfo)
+const headsrc = computed(() => userInfo.value?.avatar || '/default-avatar.png')
 const hasScrolled = ref(false)
 const isMobileMenuOpen = ref(false)
 const headerRef = ref(null)
@@ -31,6 +33,16 @@ function handleScroll() {
     lastScroll = currentScroll
   }
 }
+
+// 添加用户信息监听
+watch(
+  () => auth.isLoggedIn,
+  (newVal) => {
+    if (newVal) {
+      auth.syncUserInfo() // 新增同步方法
+    }
+  },
+)
 
 // 切换暗黑模式
 // function toggleDarkMode() {
@@ -52,12 +64,17 @@ function handleClickOutside(event) {
 }
 
 // 生命周期钩子
-onMounted(() => {
+onMounted(async () => {
+  auth.checkAuth()
   darkMode.value = localStorage.getItem('theme') === 'dark'
   window.addEventListener('scroll', handleScroll)
   document.addEventListener('click', handleClickOutside)
   // 初始化暗黑模式
   document.documentElement.classList.toggle('dark', darkMode.value)
+  headsrc.value = auth.getAvatar()
+  if (auth.isLoggedIn) {
+    auth.syncUserInfo()
+  }
 })
 
 onBeforeUnmount(() => {
@@ -87,7 +104,7 @@ onBeforeUnmount(() => {
 
         <!-- 导航 -->
         <div class="mr-6 hidden md:flex md:flex-1 md:flex-justify-end">
-          <div class="flex space-x-4">
+          <div class="flex space-x-6">
             <NuxtLink
               v-for="nav in navigation"
               :key="nav.name"
@@ -106,17 +123,17 @@ onBeforeUnmount(() => {
         </div>
 
         <!-- 右侧操作区 -->
-        <div class="flex items-center space-x-3">
-          <DarkMode class="cursor-my-pointer mr-5 mt-2" />
-
-          <AvataarCard v-if="auth.isLoggedIn()" class="hidden md:inline-flex">
-            <img :style="{ width: '40px', height: '40px' }" src="/moon.svg">
+        <div class="flex items-center">
+          <AvataarCard v-if="auth.isLoggedIn()" class="ml-3 hidden md:inline-flex">
+            <!-- avatar -->
+            <img :style="{ width: '36px', height: '36px', marginLeft: '2px' }" :src="headsrc">
           </AvataarCard>
-          <button v-else class="hidden items-center border border-transparent rounded-md from-blue-500 to-purple-500 bg-gradient-to-r px-4 py-2 text-sm text-white font-medium transition-all md:inline-flex hover:from-blue-600 hover:to-purple-600">
+          <button v-else class="mr-7 hidden items-center border border-transparent rounded-md from-blue-500 to-purple-500 bg-gradient-to-r px-4 py-2 text-sm text-white font-medium transition-all md:inline-flex hover:from-blue-600 hover:to-purple-600">
             <NuxtLink to="/login">
               Sigin Up
             </NuxtLink>
           </button>
+          <DarkMode class="cursor-my-pointer mt-2" />
 
           <!-- 移动端菜单按钮 -->
           <button

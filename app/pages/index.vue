@@ -2,6 +2,7 @@
 import { SimpleStartBg } from '#components'
 import * as THREE from 'three'
 
+const auth = useAuthStore()
 definePageMeta({
   layout: 'home',
   scrollToTop: true, // 进入该页面时自动滚动到顶部
@@ -218,6 +219,7 @@ function getTagStyle(index) {
 }
 
 onMounted(() => {
+  auth.checkAuth()
   if (window.innerWidth > 768) { // 仅在桌面端启用 Three.js
     initThree()
     animate()
@@ -255,7 +257,9 @@ onMounted(() => {
 
 // 组件卸载时移除监听
 onBeforeUnmount(() => {
-  renderer.domElement.removeEventListener('click', handleClick)
+  if (renderer?.domElement) {
+    renderer.domElement.removeEventListener('click', handleClick)
+  }
 })
 </script>
 

@@ -158,7 +158,7 @@ onMounted(() => {
   /* 容器样式 */
 .avatar-card-wrapper {
   --scale-factor: v-bind('props.scale');
-  --avatar-size: 40px; /* 默认尺寸，自动适配插槽内容 */
+  --avatar-size: 44px; /* 默认尺寸，自动适配插槽内容 */
 }
 /* 触发容器 */
 .trigger-container {
@@ -168,7 +168,7 @@ onMounted(() => {
 /* 头像触发区域 */
 .avatar-trigger {
   @apply relative cursor-pointer;
-  transform-origin: right top;
+  transform-origin: center top;
   transition: transform v-bind('`${props.duration}ms`') ease;
 
   &.is-hovered {

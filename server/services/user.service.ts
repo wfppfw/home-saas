@@ -10,13 +10,11 @@ export const UserService = {
     try {
       // 生成完整哈希
       const hashedPassword = await bcrypt.hash(password, 10)
-      console.log(hashedPassword, 'sio')
       return db.transaction(() => {
         // 检查用户存在性（在事务内）
         const existing = db.prepare(
           `SELECT id FROM users WHERE username = ?`,
         ).get(username)
-        console.log(existing, 'sio11')
         if (existing) {
           throw createError({
             statusCode: 409,
@@ -29,9 +27,7 @@ export const UserService = {
           `INSERT INTO users (username, password) 
            VALUES (?, ?)`,
         )
-        console.log(insert, username, 'sio22')
         const result = insert.run(username, hashedPassword)
-        console.log(result, 'sio33')
         // 返回完整用户信息
         return db.prepare(
           `SELECT id, username, role 
@@ -40,7 +36,6 @@ export const UserService = {
       })()
     }
     catch (error: any) {
-      console.log(error, '4444444')
       // 处理唯一约束错误（SQLite错误码 2067）
       if (error.code === 'SQLITE_CONSTRAINT_UNIQUE') {
         throw createError({
@@ -71,16 +66,21 @@ export const UserService = {
   },
 
   // 更新用户
-  updateUser(id: number, updateData: { username?: string, role?: string }) {
+  updateUser(id: number, updateData: { username?: string, info?: string }) {
     const fields = Object.keys(updateData)
     const setClause = fields.map(f => `${f} = ?`).join(', ')
     const values = [...Object.values(updateData), id]
 
-    return db.prepare(`
+    db.prepare(`
       UPDATE users 
       SET ${setClause}
       WHERE id = ?
     `).run(...values)
+
+    return db.prepare(
+      `SELECT id, username, role, info 
+       FROM users WHERE id = ?`,
+    ).get(id)
   },
 
   // 删除用户

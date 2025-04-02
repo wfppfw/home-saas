@@ -5,6 +5,12 @@ export const useAuthStore = defineStore('auth', {
     user: null as { id: number, username: string } | null,
     token: null as string | null,
     isAuthenticated: false,
+    userInfo: {
+      avatar: '',
+      username: '',
+      email: '',
+      // ... 其他字段
+    },
   }),
 
   actions: {
@@ -17,7 +23,7 @@ export const useAuthStore = defineStore('auth', {
 
         if (error.value)
           throw error.value
-
+        console.log(data.value)
         this.token = data.value.token
         this.user = data.value.user
         this.isAuthenticated = true
@@ -38,6 +44,40 @@ export const useAuthStore = defineStore('auth', {
       localStorage.removeItem('moon_token')
       localStorage.removeItem('moon_user')
       // navigateTo('/login')
+    },
+
+    setInfo(info: string) {
+      localStorage.setItem('moon_user', JOSN.stringify({ ...JSON.parse(localStorage.getItem('moon_user') as string), ...JSON.parse(info) }))
+      this.user = JSON.parse(localStorage.getItem('moon_user') as string)
+    },
+
+    getAvatar() {
+      return JSON.parse(JSON.parse(localStorage.getItem('moon_user') as string)?.info).avatar
+    },
+    getUserInfo() {
+      return JSON.parse(localStorage.getItem('moon_user') as string)
+    },
+
+    async syncUserInfo() {
+      try {
+        // 从 localStorage 获取最新数据
+        const localData = JSON.parse(localStorage.getItem('moon_user') as string) || {}
+
+        // 可选：添加 API 请求获取最新数据
+        // const { data } = await useFetch('/api/userinfo')
+        // this.userInfo = data.value
+
+        // 更新 store 状态
+        this.userInfo = {
+          avatar: JSON.parse(localData.info).avatar,
+          username: localData.username,
+          email: localData.email,
+          // ... 其他字段
+        }
+      }
+      catch (error) {
+        console.error('用户信息同步失败:', error)
+      }
     },
 
     checkAuth() {

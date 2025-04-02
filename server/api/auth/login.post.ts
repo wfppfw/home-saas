@@ -54,6 +54,7 @@ export default defineEventHandler(async (event) => {
         id: user.id,
         username: user.username,
         role: user.role,
+        avatar: JSON.parse(user?.info)?.avatar || '',
       },
     }
   }

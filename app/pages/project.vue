@@ -26,7 +26,8 @@ const projects = ref([
   { path: '/markdown-pane', isIcon: false, src: '/image/markdown.svg', type: '工具', id: 13, title: 'MarkDown编辑器', description: '在线编辑，生成导出，导入显示，导出markdown文件', stars: 156, forks: 45 },
   { path: '/runCode', isIcon: false, src: '/image/Code1.svg', type: '工具', id: 14, title: 'CodeRun', description: '在线代码运行器(运行暂时只支持JS,TS)', stars: 156, forks: 45 },
   { path: '/short-link', isIcon: false, src: '', type: '工具', id: 15, title: '短链接生成', description: '将长链接转短链接', stars: 156, forks: 45 },
-  { path: '/translate', isIcon: false, src: '', type: '工具', id: 15, title: 'Deelx翻译', description: '将长链接转短链接', stars: 156, forks: 45 },
+  { path: '/translate', isIcon: false, src: '', type: '工具', id: 15, title: 'Deelx翻译', description: '语言翻译', stars: 156, forks: 45 },
+  { path: '/excel', isIcon: false, src: '', type: '工具', id: 15, title: 'Excel文件', description: '语言翻译', stars: 156, forks: 45 },
 
   { path: '/save', isIcon: false, src: '/image/save.svg', type: '页面', id: 16, title: '临时储存', description: '限时销毁，密码提取，无需登录，只支持小文件', stars: 156, forks: 45 },
   { path: '/chat-room', isIcon: false, src: '/image/chat-room.svg', type: '页面', id: 17, title: '多人聊天室', description: '多人在线聊天或开房间聊天', stars: 156, forks: 45 },
@@ -37,6 +38,7 @@ const projects = ref([
 
   { path: '/tic-tac-toe', isIcon: false, src: '/image/jingzhiqi.svg', type: '游戏', id: 18, title: '井字棋', description: '', stars: 156, forks: 45 },
   { path: '/rock-paper-scissors', isIcon: false, src: '/image/quantou.svg', type: '游戏', id: 19, title: '剪刀石头布', description: '', stars: 156, forks: 45 },
+  { path: '/what-the-doodle', isIcon: false, src: '', type: '工具', id: 15, title: '游戏', description: '你画我猜', stars: 156, forks: 45 },
 
   // 更多数据...
 ])
